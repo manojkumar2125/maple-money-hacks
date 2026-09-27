@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maple Money Hacks — Play With Numbers, Save Money in Canada</title>
+<meta name="description" content="Playing with numbers | Save money in Canada | Simple investing tips. Free guides, reels and videos from @maple.money.hacks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --green: #0A2E1D;
+    --green-deep: #071f14;
+    --green-card: #123a26;
+    --cream: #F5F0E1;
+    --gold: #D4A93C;
+    --gold-soft: #f0cf7a;
+    --red: #D62828;
+    --muted: rgba(245, 240, 225, 0.72);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--green);
+    color: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 46, 29, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(212, 169, 60, 0.25);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cream); font-weight: 900; font-size: 17px; }
+  .brand .leaf { background: var(--red); color: #fff; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; }
+  .navlinks { display: flex; gap: 18px; }
+  .navlinks a { color: var(--muted); text-decoration: none; font-weight: 700; font-size: 14px; }
+  .navlinks a:hover { color: var(--gold-soft); }
+
+  /* Hero */
+  .hero { text-align: center; padding: 48px 0 40px; background: radial-gradient(700px 420px at 50% -60px, #1a5a37, var(--green)); }
+  .hero img.mascots {
+    width: min(78vw, 340px); border-radius: 28px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+    border: 3px solid rgba(212, 169, 60, 0.5);
+  }
+  .hero h1 { font-size: clamp(34px, 8vw, 52px); font-weight: 900; letter-spacing: 0.5px; margin: 22px 0 8px; }
+  .hero h1 .maple { color: var(--gold-soft); }
+  .tagline { color: var(--muted); font-size: 16px; font-weight: 600; max-width: 480px; margin: 0 auto 26px; }
+  .btnrow { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 24px; border-radius: 999px;
+    font-weight: 800; font-size: 15px; text-decoration: none;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-gold { background: var(--gold); color: var(--green-deep); box-shadow: 0 8px 24px rgba(212,169,60,0.35); }
+  .btn-outline { border: 2px solid rgba(212,169,60,0.6); color: var(--gold-soft); }
+  .btn-outline:hover { background: rgba(212,169,60,0.12); }
+  .handle-line { margin-top: 18px; font-size: 14px; color: var(--muted); }
+  .handle-line a { color: var(--gold-soft); font-weight: 800; text-decoration: none; }
+
+  /* Sections */
+  section { padding: 44px 0 8px; }
+  .sec-head { text-align: center; margin-bottom: 24px; }
+  .sec-head h2 { font-size: clamp(24px, 6vw, 32px); font-weight: 900; }
+  .sec-head h2 span { color: var(--gold-soft); }
+  .sec-head p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .grid.cols-2 { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    display: block; text-decoration: none; color: var(--cream);
+    background: var(--green-card);
+    border: 1px solid rgba(212, 169, 60, 0.28);
+    border-radius: 20px; padding: 22px;
+    transition: transform .12s ease, border-color .12s ease;
+  }
+  a.card:hover { transform: translateY(-3px); border-color: var(--gold); }
+  .card .emoji { font-size: 34px; margin-bottom: 10px; }
+  .card h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  .card .cta { display: inline-block; margin-top: 12px; color: var(--gold-soft); font-weight: 800; font-size: 14px; }
+
+  .ref-card { background: linear-gradient(135deg, #16452c, #0e3520); border: 2px solid var(--gold); text-align: center; }
+  .ref-card .big { font-size: 15px; color: var(--gold-soft); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .ref-card p { max-width: 420px; margin: 0 auto; }
+
+  footer { margin-top: 56px; border-top: 1px solid rgba(212,169,60,0.25); padding: 28px 0 40px; text-align: center; }
+  footer .disclaimer { font-size: 13px; color: var(--gold-soft); font-weight: 700; margin-bottom: 8px; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--gold-soft); text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="#guides">Guides</a>
+      <a href="#videos">Videos</a>
+      <a href="#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <img class="mascots" src="assets/mascots-hero.jpg" alt="Maple and Loonie, the Maple Money Hacks bear mascots" loading="eager">
+    <h1>Maple <span class="maple">Money</span> Hacks</h1>
+    <p class="tagline">Playing with numbers · Saving money in Canada · Simple investing tips — explained for every income.</p>
+    <div class="btnrow">
+      <a class="btn btn-gold" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">📸 Instagram</a>
+      <a class="btn btn-outline" href="#" target="_blank" rel="noopener">▶️ YouTube</a>
+      <a class="btn btn-outline" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">✨ Latest Reel</a>
+    </div>
+    <p class="handle-line">Follow the money breakdowns daily at <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="guides">
+    <div class="sec-head">
+      <h2>Free <span>Guides</span></h2>
+      <p>Numbers-first breakdowns. Read one, keep more of your money.</p>
+    </div>
+    <div class="grid">
+      <a class="card" href="https://muse.ai/s/day-1-bank-offers-guide-wxy6ix0xc8xupxeq" target="_blank" rel="noopener">
+        <div class="emoji">💰</div>
+        <h3>Chequing Account Offers</h3>
+        <p>9 Canadian bank offers compared side by side — signup bonuses, monthly fees and the fine print.</p>
+        <span class="cta">Read the guide →</span>
+      </a>
+      <a class="card" href="https://muse.ai/s/day-2-savings-rates-guide-xjy6ja2m5xlvxz" target="_blank" rel="noopener">
+        <div class="emoji">📈</div>
+        <h3>High-Interest Savings Rates</h3>
+        <p>Every major bank's savings rate, ranked — plus what $10,000 actually earns you in a year.</p>
+        <span class="cta">Read the guide →</span>
+      </a>
+      <a class="card" href="https://muse.ai/s/tfsa-vs-rrsp-vs-fhsa-guide-bxd6jxfkf18hf" target="_blank" rel="noopener">
+        <div class="emoji">🏦</div>
+        <h3>TFSA vs RRSP vs FHSA</h3>
+        <p>Which account to fund first — 2026 limits, tax comparisons and the funding waterfall.</p>
+        <span class="cta">Read the guide →</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="videos">
+    <div class="sec-head">
+      <h2>Watch the <span>Breakdowns</span></h2>
+      <p>Quick reels on Instagram, deeper dives on YouTube.</p>
+    </div>
+    <div class="grid cols-2">
+      <a class="card" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">
+        <div class="emoji">🏧</div>
+        <h3>Chequing Accounts, Explained</h3>
+        <p>Bank types and the best new-account offers in Canada right now.</p>
+        <span class="cta">Watch on Instagram →</span>
+      </a>
+      <a class="card" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">
+        <div class="emoji">💵</div>
+        <h3>Savings Rates, Ranked</h3>
+        <p>Where your cash actually grows — promo rates vs the fine print.</p>
+        <span class="cta">Watch on Instagram →</span>
+      </a>
+      <a class="card" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">
+        <div class="emoji">🧾</div>
+        <h3>Taxes &amp; Accounts</h3>
+        <p>How the CRA taxes interest, dividends and capital gains — and which account to fund first.</p>
+        <span class="cta">Watch on Instagram →</span>
+      </a>
+      <a class="card" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">
+        <div class="emoji">🐻</div>
+        <h3>Pay Yourself First</h3>
+        <p>Treat savings like a bill: the $250 starter fund and the full priority waterfall.</p>
+        <span class="cta">Watch on Instagram →</span>
+      </a>
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <a class="btn btn-outline" href="#" target="_blank" rel="noopener">▶️ Full videos on YouTube</a>
+    </div>
+  </section>
+
+  <section id="referral">
+    <div class="sec-head">
+      <h2>Reader <span>Perks</span></h2>
+      <p>A bonus we actually use ourselves.</p>
+    </div>
+    <a class="card ref-card" href="https://wealthsimple.com/invite/LK4W87" target="_blank" rel="noopener">
+      <div class="big">💸 Wealthsimple Referral</div>
+      <h3>Open an account, get a bonus</h3>
+      <p>Sign up with our referral link and you'll get a bonus when you fund your account. Our pick for simple, low-fee investing in Canada.</p>
+      <span class="cta">Claim the bonus →</span>
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>© 2026 Maple Money Hacks · Made with 🍁 in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
