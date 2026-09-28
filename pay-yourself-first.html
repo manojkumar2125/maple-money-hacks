@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay Yourself First Planner | Maple Money Hacks</title>
+<meta name="description" content="Free interactive planner: enter your yearly income, answer 4 questions, get your personalized monthly savings waterfall plus an estimated tax refund.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --green: #0A2E1D;
+    --green-deep: #071f14;
+    --green-card: #123a26;
+    --cream: #F5F0E1;
+    --gold: #D4A93C;
+    --gold-soft: #f0cf7a;
+    --red: #D62828;
+    --muted: rgba(245, 240, 225, 0.72);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--green);
+    color: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 46, 29, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(212, 169, 60, 0.25);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cream); font-weight: 900; font-size: 17px; }
+  .brand .leaf { background: var(--red); color: #fff; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; }
+  .navlinks { display: flex; gap: 16px; }
+  .navlinks a { color: var(--muted); text-decoration: none; font-weight: 700; font-size: 14px; }
+  .navlinks a:hover, .navlinks a.active { color: var(--gold-soft); }
+
+  .page-head { text-align: center; padding: 40px 0 8px; }
+  .page-head h1 { font-size: clamp(28px, 7vw, 42px); font-weight: 900; }
+  .page-head h1 span { color: var(--gold-soft); }
+  .page-head p { color: var(--muted); font-size: 15px; font-weight: 600; max-width: 520px; margin: 8px auto 0; }
+  .year-badge {
+    display: inline-block; margin-bottom: 12px; padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,169,60,0.15); border: 1px solid rgba(212,169,60,0.5);
+    color: var(--gold-soft); font-weight: 800; font-size: 13px; letter-spacing: 0.5px;
+  }
+
+  .calc-card {
+    background: var(--green-card);
+    border: 1px solid rgba(212, 169, 60, 0.28);
+    border-radius: 20px; padding: 24px; margin-top: 24px;
+  }
+  .sec-title { font-size: 20px; font-weight: 900; margin: 28px 0 14px; }
+  .sec-title:first-child { margin-top: 0; }
+  .sec-title .pool-note { display: block; font-size: 14px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+  .sec-title .pool-note b { color: var(--gold-soft); }
+
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+  .field .hint, .q .hint { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 6px; }
+  .field .hint a, .q .hint a { color: var(--gold-soft); font-weight: 800; text-decoration: none; }
+  .income-row { display: flex; gap: 12px; align-items: center; }
+  .income-row .dollar { font-weight: 900; font-size: 22px; color: var(--gold-soft); }
+  input[type="number"] {
+    font-family: inherit; font-size: 20px; font-weight: 800; color: var(--cream);
+    background: var(--green-deep); border: 2px solid rgba(212,169,60,0.4); border-radius: 12px;
+    padding: 10px 14px; width: 100%;
+  }
+  input[type="number"]:focus { outline: none; border-color: var(--gold); }
+  input[type="number"]:disabled { opacity: 0.75; cursor: not-allowed; background: rgba(7, 31, 20, 0.6); border-color: rgba(212, 169, 60, 0.2); color: var(--gold-soft); }
+  .income-row input[type="number"] { flex: 1; font-size: 22px; }
+  input[type="range"] { width: 100%; margin-top: 14px; accent-color: var(--gold); height: 32px; }
+
+  .derived { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .derived .dstat { flex: 1 1 150px; background: var(--green-deep); border: 1px solid rgba(212,169,60,0.25); border-radius: 14px; padding: 12px 14px; }
+  .derived .dstat .k { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); }
+  .derived .dstat .v { font-size: 23px; font-weight: 900; color: var(--gold-soft); margin-top: 2px; }
+  .derived .dstat .s { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+  .paycheque-breakdown {
+    background: var(--green-deep); border: 1px solid rgba(212,169,60,0.25);
+    border-radius: 14px; padding: 4px 16px; margin-bottom: 4px;
+  }
+  .pb-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 10px 0; font-weight: 700; font-size: 14px; border-bottom: 1px dashed rgba(212,169,60,0.18); }
+  .pb-row:last-child { border-bottom: none; }
+  .pb-row span:first-child { color: var(--cream); }
+  .pb-row span:last-child { color: var(--muted); font-weight: 800; white-space: nowrap; }
+  .pb-row.minus span:last-child { color: #e59a9a; }
+  .pb-row.total { border-top: 2px solid rgba(212,169,60,0.4); margin-top: 2px; padding-top: 14px; }
+  .pb-row.total span:first-child { font-weight: 900; font-size: 16px; }
+  .pb-row.total span:last-child { color: var(--gold-soft); font-weight: 900; font-size: 18px; }
+  .pb-sub { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+
+  .splitbar { display: flex; height: 30px; border-radius: 999px; overflow: hidden; background: var(--green-deep); margin-bottom: 12px; }
+  .splitbar div { transition: width .2s ease; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: var(--green-deep); white-space: nowrap; overflow: hidden; }
+  .split-needs { background: #cfc7a8; }
+  .split-wants { background: var(--gold-soft); }
+  .split-save { background: #37b06a; }
+  .split-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; }
+
+  .q { background: var(--green-deep); border: 1px solid rgba(212,169,60,0.18); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+  .q-text { font-weight: 800; font-size: 16px; margin-bottom: 10px; }
+  .seg { display: inline-flex; background: rgba(212,169,60,0.12); border-radius: 999px; padding: 4px; gap: 4px; }
+  .seg button {
+    font-family: inherit; font-weight: 800; font-size: 15px; color: var(--muted);
+    background: transparent; border: none; border-radius: 999px; padding: 8px 26px; cursor: pointer;
+  }
+  .seg button.on { background: var(--gold); color: var(--green-deep); }
+  .q-sub { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .q-sub label { font-size: 14px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .q-sub input[type="number"] { width: 90px; font-size: 16px; padding: 8px 10px; }
+  .hidden { display: none !important; }
+
+  .match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; width: 100%; margin-top: 14px; }
+  .match-card { background: rgba(10, 46, 29, 0.7); border: 1px solid rgba(212, 169, 60, 0.25); border-radius: 12px; padding: 12px 14px; }
+  .match-card.highlight { border-color: rgba(55, 176, 106, 0.55); background: rgba(18, 58, 38, 0.7); }
+  .match-card h4 { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gold-soft); margin-bottom: 8px; }
+  .match-card ul { list-style: none; margin: 0; padding: 0; }
+  .match-card li { font-size: 13px; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .match-card li b { color: var(--cream); font-weight: 800; }
+
+  .waterfall-framework {
+    background: rgba(7, 31, 20, 0.65);
+    border: 1px solid rgba(212, 169, 60, 0.28);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .wf-framework-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+  .wf-framework-tree {
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .wf-framework-tree b { color: var(--cream); font-family: "Nunito", -apple-system, sans-serif; }
+
+  .wf-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--green-deep); border: 1px solid rgba(212,169,60,0.18);
+    border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+  }
+  .wf-step.funded { border-color: rgba(55,176,106,0.55); }
+  .wf-step.dry { opacity: 0.75; }
+  .wf-step.auto { border-style: dashed; }
+  .wf-icon { font-size: 28px; flex-shrink: 0; line-height: 1.2; }
+  .wf-body { flex: 1; }
+  .wf-name { font-weight: 900; font-size: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .wf-amt { color: var(--gold-soft); white-space: nowrap; }
+  .wf-amt.zero { color: var(--muted); }
+  .biweekly-tag { font-size: 12px; color: var(--muted); font-weight: 700; }
+  .wf-note { font-size: 13.5px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+  .wf-note b { color: var(--cream); }
+
+  .stat.hero-stat {
+    text-align: center; padding: 22px; border: 2px solid var(--gold); border-radius: 16px;
+    background: var(--green-deep); margin-top: 20px;
+  }
+  .stat.hero-stat .k { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
+  .stat.hero-stat .v { font-size: 40px; font-weight: 900; color: var(--gold-soft); margin-top: 4px; }
+  .stat.hero-stat .v small { font-size: 18px; }
+  .tip { font-size: 14px; font-weight: 700; color: var(--muted); margin-top: 10px; }
+  .tip b { color: var(--gold-soft); }
+
+  .mascot-react {
+    display: flex; gap: 16px; align-items: center; margin-top: 20px;
+    background: var(--green-deep); border-radius: 16px; padding: 16px;
+    border: 1px solid rgba(212,169,60,0.25);
+  }
+  .mascot-react img { width: 84px; height: 84px; object-fit: cover; border-radius: 16px; border: 2px solid rgba(212,169,60,0.5); flex-shrink: 0; }
+  .mascot-react p { font-size: 15px; font-weight: 700; }
+
+  .fine-print { margin-top: 24px; font-size: 13px; color: var(--muted); }
+  .fine-print li { margin-bottom: 6px; margin-left: 18px; }
+
+  footer { margin-top: 56px; border-top: 1px solid rgba(212,169,60,0.25); padding: 28px 0 40px; text-align: center; }
+  footer .disclaimer { font-size: 13px; color: var(--gold-soft); font-weight: 700; margin-bottom: 8px; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--gold-soft); text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="index.html#guides">Guides</a>
+      <a href="index.html#videos">Videos</a>
+      <a href="index.html#calculators" class="active">Calculators</a>
+      <a href="index.html#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="page-head">
+    <span class="year-badge">PAY YOURSELF FIRST · INTERACTIVE PLANNER</span>
+    <h1>Treat savings like <span>a bill</span></h1>
+    <p>Enter your yearly income, answer the questions below — your personalized monthly money plan appears live.</p>
+  </header>
+
+  <div class="calc-card">
+    <h3 class="sec-title">1 · Your income</h3>
+    <div class="field">
+      <label for="gross">Yearly gross income</label>
+      <div class="income-row">
+        <span class="dollar">$</span>
+        <input type="number" id="gross" min="0" max="500000" step="1000" value="90000" inputmode="numeric" aria-label="Yearly gross income">
+      </div>
+      <input type="range" id="grossSlider" min="30000" max="300000" step="1000" value="90000" aria-label="Yearly gross income slider">
+      <p class="hint">Want the full tax breakdown? <a href="tax-calculator.html">See our 2026 tax calculator →</a></p>
+    </div>
+    <div class="derived" aria-live="polite">
+      <div class="dstat">
+        <div class="k">Yearly take-home</div>
+        <div class="v" id="dYearlyTake">$0</div>
+        <div class="s">after 2026 tax, CPP &amp; EI (Ontario)</div>
+      </div>
+      <div class="dstat">
+        <div class="k">Monthly take-home</div>
+        <div class="v" id="dMonthlyTake">$0</div>
+        <div class="s" id="dMonthlyTakeNote">your planner runs off this</div>
+      </div>
+      <div class="dstat">
+        <div class="k">Biweekly pay</div>
+        <div class="v" id="dBiweekly">$0</div>
+        <div class="s">gross per paycheque</div>
+      </div>
+    </div>
+
+    <h3 class="sec-title">2 · Where your paycheque goes</h3>
+    <div class="paycheque-breakdown" aria-live="polite">
+      <div class="pb-row"><span>Gross pay</span><span id="pbGross">$0</span></div>
+      <div class="pb-row minus"><span>Income tax (federal + Ontario)</span><span id="pbTax">−$0</span></div>
+      <div class="pb-row minus"><span>CPP</span><span id="pbCpp1">−$0</span></div>
+      <div class="pb-row minus hidden" id="pbCpp2Row"><span>CPP2</span><span id="pbCpp2">−$0</span></div>
+      <div class="pb-row minus"><span>EI</span><span id="pbEi">−$0</span></div>
+      <div class="pb-row minus hidden" id="pbPreTaxRow"><span>Group RRSP (pre-tax)</span><span id="pbPreTax">−$0</span></div>
+      <div class="pb-row total"><span>Net take-home</span><span id="pbNet">$0</span></div>
+    </div>
+    <p class="hint" style="margin-bottom:20px;">⚠️ <b>This is a yearly average, not a fixed paycheque.</b> CPP, CPP2 and EI stop once you hit their yearly maximums — for most earners around mid-year — so early paycheques run lower and later ones jump higher once those deductions disappear. Your actual take-home varies month to month even though your gross pay doesn't.</p>
+
+    <h3 class="sec-title">3 · Your 50/30/20 split</h3>
+    <div class="splitbar" aria-hidden="true">
+      <div class="split-needs" id="barNeeds" style="width:50%">50%</div>
+      <div class="split-wants" id="barWants" style="width:30%">30%</div>
+      <div class="split-save" id="barSave" style="width:20%">20%</div>
+    </div>
+    <div class="split-legend">
+      <span><span class="dot" style="background:#cfc7a8"></span>Needs (50%) · <b id="legNeeds" style="color:var(--cream)">$0</b></span>
+      <span><span class="dot" style="background:var(--gold-soft)"></span>Wants (30%) · <b id="legWants" style="color:var(--cream)">$0</b></span>
+      <span><span class="dot" style="background:#37b06a"></span>Save &amp; invest (20%) · <b id="legSave" style="color:var(--cream)">$0</b></span>
+    </div>
+
+    <h3 class="sec-title">4 · Your questions</h3>
+
+    <div class="q">
+      <p class="q-text">Do you have 1 month of expenses saved?</p>
+      <div class="seg" id="qFund">
+        <button type="button" data-v="yes">Yes</button><button type="button" data-v="no" class="on">No</button>
+      </div>
+      <p class="hint">That's about <b id="fundTargetHint">$0</b> — one month of basic needs (starter safety net).</p>
+
+      <div class="hidden" id="fund6Wrap" style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(212,169,60,0.2);">
+        <p class="q-text" style="font-size:15px; margin-bottom:8px;">Do you have a full 6 months of expenses saved?</p>
+        <div class="seg" id="qFund6">
+          <button type="button" data-v="yes">Yes</button><button type="button" data-v="no" class="on">No</button>
+        </div>
+        <p class="hint">Full 6-month safety net: <b id="fund6TargetHint">$0</b>. If not yet, your plan directs funds to build it!</p>
+      </div>
+    </div>
+
+    <!-- Questions 2, 3, 4 only show when 1 month emergency fund is saved -->
+    <div id="wealthQuestions" class="hidden">
+      <div class="q">
+        <p class="q-text">Does your employer match retirement contributions?</p>
+        <div class="seg" id="qMatch">
+          <button type="button" data-v="yes">Yes</button><button type="button" data-v="no" class="on">No</button>
+        </div>
+        <div class="q-sub hidden" id="matchInputs">
+          <label>They match <input type="number" id="matchPct" value="100" min="0" max="300" disabled inputmode="numeric" aria-label="Employer match percent"> % (100% match)</label>
+          <label>on up to <input type="number" id="matchCap" value="3" min="0" max="25" inputmode="numeric" aria-label="Match applies to percent of salary"> % of salary</label>
+          <div class="match-grid" id="matchDetails">
+            <div class="match-card">
+              <h4>Your Contribution</h4>
+              <ul>
+                <li><span>Monthly:</span> <b id="employeeMonthly">$0</b></li>
+                <li><span>Biweekly:</span> <b id="employeeBiweekly">$0</b></li>
+                <li><span>Yearly:</span> <b id="employeeYearly">$0</b></li>
+              </ul>
+            </div>
+            <div class="match-card">
+              <h4>Employer Match</h4>
+              <ul>
+                <li><span>Monthly:</span> <b id="employerMonthly">$0</b></li>
+                <li><span>Biweekly:</span> <b id="employerBiweekly">$0</b></li>
+                <li><span>Yearly:</span> <b id="employerYearly">$0</b></li>
+              </ul>
+            </div>
+            <div class="match-card highlight">
+              <h4>Total Savings</h4>
+              <ul>
+                <li><span>Monthly:</span> <b id="totalMonthly">$0</b></li>
+                <li><span>Biweekly:</span> <b id="totalBiweekly">$0</b></li>
+                <li><span>Yearly:</span> <b id="totalYearly">$0</b></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q">
+        <p class="q-text">Planning to buy your first home?</p>
+        <div class="seg" id="qHome">
+          <button type="button" data-v="yes">Yes</button><button type="button" data-v="no" class="on">No</button>
+        </div>
+        <p class="hint">Unlocks the FHSA step — $8,000/yr of tax-deductible room.</p>
+      </div>
+
+      <div class="q">
+        <p class="q-text">Do you have kids?</p>
+        <div class="seg" id="qKids">
+          <button type="button" data-v="yes">Yes</button><button type="button" data-v="no" class="on">No</button>
+        </div>
+        <div class="q-sub hidden" id="kidsInputs">
+          <label>How many? <input type="number" id="kidCount" value="1" min="1" max="10" inputmode="numeric" aria-label="Number of kids"></label>
+        </div>
+        <p class="hint">Unlocks the RESP step — $2,500/yr per child grabs the full $500 government grant.</p>
+      </div>
+    </div>
+
+    <h3 class="sec-title">5 · Your monthly waterfall <span class="pool-note">Every dollar of your 20% (<b id="poolAmt">$0</b>) flows down below in priority order. Your group RRSP (if any) is <b>separate</b> and automatic — it stacks on top, so the total at the bottom is bigger than the 20% figure alone.</span></h3>
+    <div class="waterfall-framework">
+      <div class="wf-framework-title">20% Total Savings Rate — Priority Architecture:</div>
+      <div class="wf-framework-tree">
+        <div>├── <b>1. Emergency Fund</b> (25% of total savings = 5% of income)</div>
+        <div>├── <b>2. Group RRSP Match</b> (pre-tax payroll deduction, separate from the 20% — up to employer limit, e.g., 3%–6% of income)</div>
+        <div>├── <b>3. FHSA First</b> (If saving for a house, up to $8,000/yr)</div>
+        <div>├── <b>4. RESP Next</b> (If you have kids, up to $2,500/yr per child for 20% CESG grant)</div>
+        <div>├── <b>5. TFSA</b> (Tax-free growth, max $7,000/yr)</div>
+        <div>└── <b>6. Personal RRSP</b> (Tax deduction, depending on income bracket)</div>
+      </div>
+    </div>
+    <div id="waterfall"></div>
+
+    <div class="stat hero-stat" style="border-color: rgba(55,176,106,0.6);">
+      <div class="k">Total you're saving this month (all buckets)</div>
+      <div class="v" id="rTotalSavings">$0</div>
+      <p class="tip" id="rTotalSavingsBreakdown">Your 20% pool.</p>
+    </div>
+
+    <div class="stat hero-stat">
+      <div class="k">Your estimated tax refund</div>
+      <div class="v" id="rRefund">$0<small>/yr</small></div>
+      <p class="tip">💡 <b>Smart move:</b> reinvest your refund into your TFSA or RRSP next year — the gross-up trick makes the same money work twice.</p>
+    </div>
+
+    <div class="mascot-react">
+      <img src="mascot-hero.jpg" alt="Maple and Loonie, the Maple Money Hacks bears">
+      <p id="mascotLine">Answer the questions and the bears will react…</p>
+    </div>
+  </div>
+
+  <ul class="fine-print">
+    <li><strong>Simplified model.</strong> The 50/30/20 rule is a guideline — adjust the percentages to your real life.</li>
+    <li>Emergency target = 1 month of needs. Many experts suggest 3–6 months once you're past the starter stage.</li>
+    <li>2026 payroll deductions: CPP 5.95% between $3,500–$74,600 (max $4,230.45) · CPP2 4% between $74,600–$85,000 (max $416) · EI 1.63% up to $68,900 (max $1,123.07). Self-employed and Quebec rates differ and aren't modelled here.</li>
+    <li>2026 limits: FHSA $8,000/yr ($40,000 lifetime) · TFSA $7,000/yr · RRSP 18% of earned income up to $33,810 · RESP $2,500/yr per child for the full 20% CESG grant ($500).</li>
+    <li>Tax refund estimate = (annual <b>personal</b> RRSP + FHSA contributions) × your Ontario 2026 marginal rate. Your group RRSP match isn't in this refund figure because it's deducted <b>before</b> tax on every paycheque — its tax benefit already shows up as higher take-home pay above, not as a refund at filing time.</li>
+    <li>Employer match math is approximated from your gross salary; your plan's exact rules win.</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>© 2026 Maple Money Hacks · Made with 🍁 in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+
+<script>
+/* ---- 2026 Canadian tax engine (Ontario) — same verified figures as tax-calculator.html ---- */
+var FEDERAL = {
+  brackets: [
+    [58523, 0.14],
+    [117045, 0.205],
+    [181440, 0.26],
+    [258482, 0.29],
+    [Infinity, 0.33]
+  ],
+  bpaMax: 16452, bpaMin: 14829,
+  bpaPhaseStart: 181440, bpaPhaseEnd: 258482,
+  lowestRate: 0.14
+};
+
+
+var PROVINCES = {
+  ON: {
+    name: "Ontario",
+    brackets: [
+      [53891, 0.0505],
+      [107785, 0.0915],
+      [150000, 0.1116],
+      [220000, 0.1216],
+      [Infinity, 0.1316]
+    ],
+    bpa: 12989, bpaRate: 0.0505,
+    surtax: { t1: 5818, r1: 0.20, t2: 7446, r2: 0.36 }
+  }
+};
+
+/* 2026 CPP / CPP2 / EI (outside Quebec) — CRA-published rates & maximums */
+var CPP1 = { exemption: 3500, ympe: 74600, rate: 0.0595 };      // max $4,230.45
+var CPP2 = { ympe: 74600, yampe: 85000, rate: 0.04 };            // max $416.00
+var EI = { mie: 68900, rate: 0.0163 };                           // max $1,123.07
+
+function calcCPP1(gross) {
+  var pensionable = Math.min(Math.max(gross - CPP1.exemption, 0), CPP1.ympe - CPP1.exemption);
+  return pensionable * CPP1.rate;
+}
+function calcCPP2(gross) {
+  var band = Math.min(Math.max(gross - CPP2.ympe, 0), CPP2.yampe - CPP2.ympe);
+  return band * CPP2.rate;
+}
+function calcEI(gross) {
+  var insurable = Math.min(Math.max(gross, 0), EI.mie);
+  return insurable * EI.rate;
+}
+
+function bracketTax(income, brackets) {
+  var tax = 0, prev = 0;
+  for (var i = 0; i < brackets.length; i++) {
+    var cap = brackets[i][0], rate = brackets[i][1];
+    var inBracket = Math.min(income, cap) - prev;
+    if (inBracket > 0) tax += inBracket * rate;
+    prev = cap;
+    if (income <= cap) break;
+  }
+  return tax;
+}
+
+function federalBPA(income) {
+  if (income <= FEDERAL.bpaPhaseStart) return FEDERAL.bpaMax;
+  if (income >= FEDERAL.bpaPhaseEnd) return FEDERAL.bpaMin;
+  var frac = (income - FEDERAL.bpaPhaseStart) / (FEDERAL.bpaPhaseEnd - FEDERAL.bpaPhaseStart);
+  return FEDERAL.bpaMax - frac * (FEDERAL.bpaMax - FEDERAL.bpaMin);
+}
+
+function calcFederal(income) {
+  var gross = bracketTax(income, FEDERAL.brackets);
+  return Math.max(0, gross - federalBPA(income) * FEDERAL.lowestRate);
+}
+
+function ontarioHealthPremium(income) {
+  if (income <= 20000) return 0;
+  if (income <= 25000) return (income - 20000) * 0.06;
+  if (income <= 36000) return 300;
+  if (income <= 38500) return 300 + (income - 36000) * 0.06;
+  if (income <= 48000) return 450;
+  if (income <= 48600) return 450 + (income - 48000) * 0.25;
+  if (income <= 72000) return 600;
+  if (income <= 72600) return 600 + (income - 72000) * 0.25;
+  if (income <= 200000) return 750;
+  if (income <= 200600) return 750 + (income - 200000) * 0.25;
+  return 900;
+}
+
+function calcProvincial(code, income) {
+  var P = PROVINCES[code];
+  var basic = bracketTax(income, P.brackets);
+  var t = Math.max(0, basic - P.bpa * P.bpaRate);
+  var surtax = 0;
+  if (t > P.surtax.t1) surtax += (t - P.surtax.t1) * P.surtax.r1;
+  if (t > P.surtax.t2) surtax += (t - P.surtax.t2) * P.surtax.r2;
+  var ohp = ontarioHealthPremium(income);
+  return t + surtax + ohp;
+}
+
+function marginalRate(gross) {
+  var bump = 100;
+  var t1 = calcFederal(gross) + calcProvincial("ON", gross);
+  var t2 = calcFederal(gross + bump) + calcProvincial("ON", gross + bump);
+  return (t2 - t1) / bump;
+}
+
+/* Combined federal + Ontario tax on a given taxable income */
+function annualTax(taxableIncome) {
+  return calcFederal(taxableIncome) + calcProvincial("ON", taxableIncome);
+}
+
+/* Full paycheque breakdown: gross -> income tax, CPP, CPP2, EI, an optional
+   pre-tax payroll deduction (e.g. group RRSP), and what's left as take-home.
+   CPP/CPP2/EI are calculated on gross pensionable/insurable earnings — a
+   pre-tax RRSP deduction lowers taxable income but not the CPP/EI base. */
+function payrollBreakdown(gross, preTaxDeduction) {
+  if (gross <= 0) return { gross: 0, tax: 0, cpp1: 0, cpp2: 0, ei: 0, preTax: 0, takeHome: 0 };
+  var d = Math.max(0, Math.min(preTaxDeduction || 0, gross));
+  var taxableIncome = gross - d;
+  var tax = annualTax(taxableIncome);
+  var cpp1 = calcCPP1(gross);
+  var cpp2 = calcCPP2(gross);
+  var ei = calcEI(gross);
+  var takeHome = gross - tax - cpp1 - cpp2 - ei - d;
+  return { gross: gross, tax: tax, cpp1: cpp1, cpp2: cpp2, ei: ei, preTax: d, takeHome: takeHome };
+}
+
+/* Yearly take-home from gross income (2026 income tax + CPP + CPP2 + EI) */
+function takeHomeAnnual(gross) {
+  return payrollBreakdown(gross, 0).takeHome;
+}
+
+/* Yearly take-home when a pre-tax payroll deduction (e.g. group RRSP) is withheld
+   before tax is calculated. The deducted amount itself lands in the RRSP, not in
+   your bank account, so it is subtracted from cash-in-hand as well as from the
+   taxable base — CPP/CPP2/EI are unaffected since they're based on gross pay. */
+function takeHomeAnnualWithPreTaxDeduction(gross, preTaxDeduction) {
+  return payrollBreakdown(gross, preTaxDeduction).takeHome;
+}
+
+/* ---- Pay Yourself First planner ---- */
+var FHSA_MO = 8000 / 12;   // $666.67
+var TFSA_MO = 7000 / 12;   // $583.33
+var RESP_MO_PER_KID = 2500 / 12; // $208.33
+
+function fmt(n) {
+  return "$" + Math.round(n).toLocaleString("en-CA");
+}
+
+/* Monthly amount -> equivalent biweekly amount (26 pay periods/yr) */
+function toBiweekly(monthlyAmount) {
+  return (monthlyAmount * 12) / 26;
+}
+
+function fmtMoBiweekly(monthlyAmount) {
+  return fmt(monthlyAmount) + "/mo <span class=\"biweekly-tag\">(" + fmt(toBiweekly(monthlyAmount)) + "/biweekly)</span>";
+}
+
+/* Monthly amount -> $X/mo ($Y/biweekly · $Z/yr), used in the waterfall where the
+   annual total matters (RRSP/TFSA/RESP room, employer match, etc.) */
+function fmtMoBiweeklyYearly(monthlyAmount) {
+  return fmt(monthlyAmount) + "/mo <span class=\"biweekly-tag\">(" + fmt(toBiweekly(monthlyAmount)) + "/biweekly · " + fmt(monthlyAmount * 12) + "/yr)</span>";
+}
+
+function planMonthly(takeHome, o) {
+  var needs = takeHome * 0.50;
+  var wants = takeHome * 0.30;
+  var pool = takeHome * 0.20;
+  var gross = o.gross || 0;
+  var marg = gross > 0 ? marginalRate(gross) : 0;
+  var remaining = pool;
+  var steps = [];
+  var dryNote = "💤 $0 for now — the 20% pool ran dry here. Once E Bump your savings rate or let income growth fill it in.";
+
+  function take(ask) {
+    var a = Math.min(remaining, ask);
+    remaining -= a;
+    return a;
+  }
+
+  /* 1. Emergency fund (25% of total savings = 5% of income) */
+  if (!o.hasFund) {
+    var target1Mo = needs;
+    var monthsTo1Mo = pool > 0 ? target1Mo / pool : 0;
+    steps.push({
+      icon: "🛟", name: "Emergency fund (1-month starter)", amount: take(pool),
+      note: "Your whole 20% builds your starter safety net first — about <b>" + monthsTo1Mo.toFixed(1) + " months</b> to 1 month of expenses (" + fmt(target1Mo) + "). All investing waits.",
+      funded: true
+    });
+    addDrySteps(steps, o, dryNote);
+    return finish(takeHome, needs, wants, pool, remaining, steps, gross, marg, 0, 0);
+  } else if (!o.has6MonthsFund) {
+    var efTarget = pool * 0.25;
+    var efAmt = take(efTarget);
+    var neededTo6Mo = needs * 5;
+    var monthsTo6Mo = efAmt > 0 ? neededTo6Mo / efAmt : 0;
+    steps.push({
+      icon: "🛟", name: "Emergency fund (25% of savings = 5% of income)", amount: efAmt,
+      note: "Allocating 25% of your savings (5% of income) to build your 6-month buffer (" + fmt(needs * 6) + ") in about <b>" + monthsTo6Mo.toFixed(1) + " months</b> — while the remaining 75% builds wealth.",
+      funded: efAmt > 0, dry: efAmt === 0
+    });
+  } else {
+    steps.push({
+      icon: "🛟", name: "Emergency fund", amount: 0,
+      note: "✅ Full 6-month safety net saved (" + fmt(needs * 6) + ") — 100% of savings flows to wealth building.",
+      funded: true, skipped: true
+    });
+  }
+
+  /* 2. Group RRSP Match (Up to employer limit, e.g., 3%–6% of income) —
+     this is a pre-tax payroll deduction, so it never touches the 20% pool.
+     It's already been carved out of gross before "takeHome" was calculated,
+     which is why take-home above is higher than it would be without the match. */
+  var freeMoney = 0, matchContrib = 0;
+  if (o.hasMatch) {
+    matchContrib = gross / 12 * (o.matchCap / 100);
+    freeMoney = matchContrib * (o.matchPct / 100);
+    var totalMatchPlan = matchContrib + freeMoney;
+    steps.push({
+      icon: "🤝", name: "Group RRSP match", amount: matchContrib,
+      badge: matchContrib > 0 ? "+ " + fmt(freeMoney) + "/mo (" + fmt(freeMoney * 12) + "/yr) match" : "",
+      totalAmt: totalMatchPlan, auto: true,
+      note: matchContrib > 0
+        ? "Deducted automatically from every paycheque <b>before tax</b> — your employer adds <b>" + fmt(freeMoney) + "/mo free</b> (instant 100% return). This doesn't come out of your 20% pool below: it already lowered your taxable income, which is why your take-home above is higher than it would be without it."
+        : dryNote, funded: matchContrib > 0, dry: matchContrib === 0
+    });
+  }
+
+  /* 3. If saving for a house: FHSA First (Up to $8,000/yr) */
+  var fhsa = 0;
+  if (o.homeBuyer) {
+    fhsa = take(FHSA_MO);
+    steps.push({
+      icon: "🏠", name: "FHSA (First home)", amount: fhsa,
+      note: fhsa >= FHSA_MO - 0.01
+        ? "Maxing the <b>$8,000/yr</b> room ($667/mo) — tax deduction now, tax-free withdrawal for your first home later."
+        : (fhsa > 0 ? "Putting <b>" + fmt(fhsa) + "</b> of the <b>$667/mo</b> max toward your first home — grows with income." : dryNote),
+      funded: fhsa > 0, dry: fhsa === 0
+    });
+  }
+
+  /* 4. If you have kids: RESP Next (Up to $2,500/yr per child for 20% CESG grant) */
+  var resp = 0;
+  if (o.hasKids) {
+    var perKidTarget = RESP_MO_PER_KID * o.kids;
+    resp = take(perKidTarget);
+    steps.push({
+      icon: "🎓", name: "RESP" + (o.kids > 1 ? " × " + o.kids + " kids" : ""), amount: resp,
+      note: resp >= perKidTarget - 0.01
+        ? "<b>" + fmt(resp) + "/mo</b> grabs the full 20% government grant — <b>$500/yr per child, free money</b>."
+        : (resp > 0 ? "<b>" + fmt(resp) + "</b> toward the kids' education — partial grant this year." : dryNote),
+      funded: resp > 0, dry: resp === 0
+    });
+  }
+
+  /* 5. TFSA (Tax-free growth, max $7,000/yr) */
+  var tfsa = take(TFSA_MO);
+  steps.push({
+    icon: "📈", name: "TFSA", amount: tfsa,
+    note: tfsa >= TFSA_MO - 0.01
+      ? "Maxing the 2026 <b>$7,000/yr</b> room ($583/mo) — every dollar grows tax-free, forever."
+      : (tfsa > 0 ? "<b>" + fmt(tfsa) + "</b> of the <b>$583/mo</b> max — every dollar still grows tax-free." : dryNote),
+    funded: tfsa > 0, dry: tfsa === 0
+  });
+
+  /* 6. Personal RRSP (Tax deduction, depending on income bracket) */
+  var rrspMoCap = Math.min(gross * 0.18, 33810) / 12;
+  var rrsp = take(rrspMoCap);
+  steps.push({
+    icon: "🌱", name: "Personal RRSP", amount: rrsp,
+    note: rrsp >= rrspMoCap - 0.01 && rrsp > 0
+      ? "Maxing your 2026 RRSP room (" + fmt(rrspMoCap * 12) + "/yr) — cuts this year's tax bill (see refund below)."
+      : (rrsp > 0
+        ? "<b>" + fmt(rrsp) + "/mo</b> into Personal RRSP — cuts this year's tax bill (room: 18% of income, max $33,810/yr)."
+        : dryNote),
+    funded: rrsp > 0, dry: rrsp === 0
+  });
+
+  return finish(takeHome, needs, wants, pool, remaining, steps, gross, marg, rrsp, fhsa);
+}
+
+function addDrySteps(steps, o, dryNote) {
+  if (o.hasMatch) steps.push({ icon: "🤝", name: "Group RRSP match", amount: 0, note: dryNote, dry: true });
+  if (o.homeBuyer) steps.push({ icon: "🏠", name: "FHSA (First home)", amount: 0, note: dryNote, dry: true });
+  if (o.hasKids) steps.push({ icon: "🎓", name: "RESP" + (o.kids > 1 ? " × " + o.kids + " kids" : ""), amount: 0, note: dryNote, dry: true });
+  steps.push({ icon: "📈", name: "TFSA", amount: 0, note: dryNote, dry: true });
+  steps.push({ icon: "🌱", name: "Personal RRSP", amount: 0, note: dryNote, dry: true });
+}
+
+function finish(takeHome, needs, wants, pool, remaining, steps, gross, marg, rrspMo, fhsaMo) {
+  var annualRRSP = (rrspMo || 0) * 12;
+  var annualFHSA = (fhsaMo || 0) * 12;
+  var totalDeductible = annualRRSP + annualFHSA;
+  var refund = totalDeductible * marg;
+  return {
+    takeHome: takeHome, needs: needs, wants: wants, pool: pool,
+    steps: steps, leftover: remaining, gross: gross, marg: marg,
+    rrspAnnual: annualRRSP, fhsaAnnual: annualFHSA, totalDeductible: totalDeductible, refund: refund
+  };
+}
+
+function mascotLine(r, o) {
+  if (r.takeHome <= 0) return "Answer the questions and the bears will react…";
+  if (!o.hasFund) return "Maple & Loonie cheer you on — a few focused months and your 1-month starter safety net is done. Future-you says thanks. 🛟";
+  if (o.hasFund && !o.has6MonthsFund) return "Maple & Loonie love this balance — capturing employer match & kid grant while steadily building your 6-month safety net! 🛟";
+  if (r.leftover > 1) return "Maple & Loonie are doing a happy dance — your whole waterfall is maxed with " + fmt(r.leftover) + "/mo to spare! Consider non-registered investing. 🎉";
+  var anyDry = r.steps.some(function (s) { return s.dry; });
+  if (anyDry) return "Maple & Loonie nod approvingly — solid plan! The steps showing $0 will fill in as your income grows. 🌱";
+  return "Maple & Loonie give you a big thumbs up — every dollar of your 20% has a job. This is how wealth gets built. 🐻";
+}
+
+/* expose for testing in node */
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { planMonthly: planMonthly, takeHomeAnnual: takeHomeAnnual, takeHomeAnnualWithPreTaxDeduction: takeHomeAnnualWithPreTaxDeduction, payrollBreakdown: payrollBreakdown, calcCPP1: calcCPP1, calcCPP2: calcCPP2, calcEI: calcEI, marginalRate: marginalRate, calcFederal: calcFederal, calcProvincial: calcProvincial };
+}
+
+if (typeof document !== "undefined") {
+  var grossInput = document.getElementById("gross");
+  var grossSlider = document.getElementById("grossSlider");
+
+  var state = { hasFund: false, has6MonthsFund: false, hasMatch: false, matchPct: 100, matchCap: 3, homeBuyer: false, hasKids: false, kids: 1 };
+
+  function segWire(id, key, showId) {
+    var el = document.getElementById(id);
+    var btns = el.querySelectorAll("button");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        for (var j = 0; j < btns.length; j++) btns[j].classList.remove("on");
+        this.classList.add("on");
+        state[key] = this.getAttribute("data-v") === "yes";
+        if (showId) {
+          (Array.isArray(showId) ? showId : [showId]).forEach(function (sid) {
+            var targetEl = document.getElementById(sid);
+            if (targetEl) targetEl.classList.toggle("hidden", !state[key]);
+          });
+        }
+        render();
+      });
+    }
+  }
+  segWire("qFund", "hasFund", ["fund6Wrap", "wealthQuestions"]);
+  segWire("qFund6", "has6MonthsFund");
+  segWire("qMatch", "hasMatch", "matchInputs");
+  segWire("qHome", "homeBuyer");
+  segWire("qKids", "hasKids", "kidsInputs");
+
+  ["matchCap", "kidCount"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", function () {
+      state.matchCap = Math.max(0, parseFloat(document.getElementById("matchCap").value) || 0);
+      state.kids = Math.max(1, Math.min(10, parseInt(document.getElementById("kidCount").value) || 1));
+      render();
+    });
+  });
+
+  function render() {
+    var gross = Math.max(0, parseFloat(grossInput.value) || 0);
+    var groupRrspAnnual = state.hasMatch ? gross * (state.matchCap / 100) : 0;
+    var pb = payrollBreakdown(gross, groupRrspAnnual);
+    var yearlyTake = pb.takeHome;
+    var monthlyTake = yearlyTake / 12;
+    var biweekly = gross / 26;
+
+    document.getElementById("pbGross").innerHTML = fmtMoBiweekly(gross / 12);
+    document.getElementById("pbTax").innerHTML = "−" + fmtMoBiweekly(pb.tax / 12);
+    document.getElementById("pbCpp1").innerHTML = "−" + fmtMoBiweekly(pb.cpp1 / 12);
+    document.getElementById("pbCpp2").innerHTML = "−" + fmtMoBiweekly(pb.cpp2 / 12);
+    document.getElementById("pbCpp2Row").classList.toggle("hidden", pb.cpp2 <= 0);
+    document.getElementById("pbEi").innerHTML = "−" + fmtMoBiweekly(pb.ei / 12);
+    document.getElementById("pbPreTax").innerHTML = "−" + fmtMoBiweekly(pb.preTax / 12);
+    document.getElementById("pbPreTaxRow").classList.toggle("hidden", pb.preTax <= 0);
+    document.getElementById("pbNet").innerHTML = fmtMoBiweekly(monthlyTake);
+
+    document.getElementById("dYearlyTake").textContent = fmt(yearlyTake);
+    document.getElementById("dMonthlyTake").textContent = fmt(monthlyTake);
+    document.getElementById("dBiweekly").textContent = fmt(biweekly);
+    document.getElementById("dMonthlyTakeNote").textContent = state.hasMatch
+      ? "already reflects your group RRSP pre-tax deduction"
+      : "your planner runs off this";
+
+    state.gross = gross;
+    var r = planMonthly(monthlyTake, state);
+
+    document.getElementById("legNeeds").textContent = fmt(r.needs) + "/mo (" + fmt(toBiweekly(r.needs)) + "/biweekly)";
+    document.getElementById("legWants").textContent = fmt(r.wants) + "/mo (" + fmt(toBiweekly(r.wants)) + "/biweekly)";
+    document.getElementById("legSave").textContent = fmt(r.pool) + "/mo (" + fmt(toBiweekly(r.pool)) + "/biweekly)";
+    document.getElementById("poolAmt").textContent = fmt(r.pool) + "/mo (" + fmt(toBiweekly(r.pool)) + "/biweekly)";
+    document.getElementById("fundTargetHint").textContent = fmt(r.needs);
+    document.getElementById("fund6TargetHint").textContent = fmt(r.needs * 6);
+
+    // Calculate employer match amount
+    var monthlySalary = gross / 12;
+    var biweeklySalary = gross / 26;
+    var yearlySalary = gross;
+
+    // Employee contribution
+    var employeeMonthly = monthlySalary * (state.matchCap / 100);
+    var employeeBiweekly = biweeklySalary * (state.matchCap / 100);
+    var employeeYearly = yearlySalary * (state.matchCap / 100);
+
+    // Employer match (100% 1:1 match)
+    var employerMonthly = employeeMonthly * (state.matchPct / 100);
+    var employerBiweekly = employeeBiweekly * (state.matchPct / 100);
+    var employerYearly = employeeYearly * (state.matchPct / 100);
+
+    // Total savings (both)
+    var totalMonthly = employeeMonthly + employerMonthly;
+    var totalBiweekly = employeeBiweekly + employerBiweekly;
+    var totalYearly = employeeYearly + employerYearly;
+
+    // Update the DOM with calculated values
+    document.getElementById("employeeMonthly").textContent = fmt(employeeMonthly);
+    document.getElementById("employerMonthly").textContent = fmt(employerMonthly);
+    document.getElementById("totalMonthly").textContent = fmt(totalMonthly);
+
+    document.getElementById("employeeBiweekly").textContent = fmt(employeeBiweekly);
+    document.getElementById("employerBiweekly").textContent = fmt(employerBiweekly);
+    document.getElementById("totalBiweekly").textContent = fmt(totalBiweekly);
+
+    document.getElementById("employeeYearly").textContent = fmt(employeeYearly);
+    document.getElementById("employerYearly").textContent = fmt(employerYearly);
+    document.getElementById("totalYearly").textContent = fmt(totalYearly);
+
+    var wf = document.getElementById("waterfall");
+    wf.innerHTML = "";
+    r.steps.forEach(function (s) {
+      var div = document.createElement("div");
+      div.className = "wf-step" + (s.funded && !s.skipped ? " funded" : "") + (s.dry ? " dry" : "") + (s.auto ? " auto" : "");
+      var amtCls = s.amount > 0 ? "" : " zero";
+      var amtDisplay = fmtMoBiweeklyYearly(s.amount);
+      if (s.badge) {
+        amtDisplay = fmtMoBiweeklyYearly(s.amount) + ' <span style="font-size:12px;color:var(--gold-soft);font-weight:700;margin-left:4px;">(' + s.badge + ')</span>';
+      }
+      div.innerHTML =
+        '<div class="wf-icon">' + s.icon + "</div>" +
+        '<div class="wf-body"><div class="wf-name"><span>' + s.name + "</span>" +
+        '<span class="wf-amt' + amtCls + '">' + amtDisplay + "</span></div>" +
+        '<div class="wf-note">' + s.note + "</div></div>";
+      wf.appendChild(div);
+    });
+    if (r.leftover > 1) {
+      var extra = document.createElement("div");
+      extra.className = "wf-step funded";
+      extra.innerHTML =
+        '<div class="wf-icon">🎉</div>' +
+        '<div class="wf-body"><div class="wf-name"><span>Extra</span>' +
+        '<span class="wf-amt">' + fmtMoBiweeklyYearly(r.leftover) + "</span></div>" +
+        '<div class="wf-note">Waterfall maxed with money to spare — consider non-registered investing or treating your wants.</div></div>';
+      wf.appendChild(extra);
+    }
+    document.getElementById("rRefund").innerHTML = fmt(r.refund) + "<small>/yr</small>";
+    document.getElementById("mascotLine").textContent = mascotLine(r, state);
+
+    var groupRrspMonthly = groupRrspAnnual / 12;
+    var totalMonthlySavings = r.pool + groupRrspMonthly;
+    document.getElementById("rTotalSavings").innerHTML = fmtMoBiweeklyYearly(totalMonthlySavings);
+    document.getElementById("rTotalSavingsBreakdown").innerHTML = groupRrspMonthly > 0
+      ? "= " + fmt(r.pool) + "/mo (your 20% waterfall) + " + fmt(groupRrspMonthly) + "/mo (group RRSP, deducted before tax) — that's why the waterfall total is bigger than the 20% pool alone."
+      : "This is just your 20% pool — no group RRSP is active right now.";
+  }
+
+  grossInput.addEventListener("input", function () {
+    var v = Math.max(0, Math.min(500000, parseFloat(grossInput.value) || 0));
+    grossSlider.value = Math.max(30000, Math.min(300000, v));
+    render();
+  });
+  grossSlider.addEventListener("input", function () {
+    grossInput.value = grossSlider.value;
+    render();
+  });
+  render();
+}
+</script>
+
+</body>
+</html>

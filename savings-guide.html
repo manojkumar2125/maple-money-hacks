@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <link rel="icon" href="data:," />
+  <title>High-Interest Savings Rates (Canada 2026) — Maple Money Hacks</title>
+  <style>
+    :root {
+      --ink:#0A2E1D; --muted:#5c6d60; --paper:#F5F0E1; --surface:#FFFDF6;
+      --line:#ddd2b8; --brand:#0A2E1D; --brand-dark:#071f14; --pop:#D4A93C;
+      --soft:#ece3c9; --urgent:#D62828; --urgent-soft:#f7ddd2; --shadow:0 18px 50px rgba(10,46,29,.10);
+    }
+    
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;overflow-x:hidden}
+    a{color:inherit} button{font:inherit}
+    .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+    .hero{padding:clamp(40px,8vw,90px) 0 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero:after{content:"$";position:absolute;right:max(-40px,calc((100vw - 1160px)/2));top:-78px;font:700 clamp(260px,34vw,470px)/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--soft);z-index:-1;transform:rotate(8deg)}
+    .brandline{font:650 12px/1.4 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.055em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+    .stamp{font:600 12px/1.4 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-dark);display:flex;gap:10px;align-items:center;margin-bottom:20px}
+    .stamp:before{content:"";width:32px;height:3px;background:var(--pop);flex:none}
+    h1{font-size:clamp(40px,7vw,82px);line-height:.95;letter-spacing:-.055em;max-width:900px;margin:0 0 24px}
+    .hero p{font-size:clamp(18px,2vw,23px);max-width:720px;margin:0 0 28px;color:var(--muted)}
+    .hero-note{display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:var(--paper);padding:11px 15px;font:500 13px/1.35 ui-monospace,"SFMono-Regular",Consolas,monospace;max-width:760px}
+    .hero-note svg{flex:none}
+    .quick{padding:28px 0;border-bottom:1px solid var(--line)}
+    .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+    .quick article{background:var(--surface);padding:24px}
+    .quick b{font:700 29px/1 ui-monospace,"SFMono-Regular",Consolas,monospace;display:block;letter-spacing:-.04em;color:var(--brand-dark)}
+    .quick span{display:block;color:var(--muted);font-size:14px;margin-top:8px}
+    section{padding:64px 0}
+    .section-head{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:end;margin-bottom:28px}
+    h2{font-size:clamp(29px,4vw,46px);line-height:1.05;letter-spacing:-.035em;margin:0}
+    .section-head p{margin:0;color:var(--muted);max-width:530px;justify-self:end}
+    .comparison-shell{border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{text-align:left;vertical-align:top;padding:14px 16px;border-bottom:1px solid var(--line)}
+    th{font:650 11px/1.3 ui-monospace,"SFMono-Regular",Consolas,monospace;text-transform:uppercase;letter-spacing:.055em;color:var(--muted);background:var(--soft)}
+    tbody tr:last-child td{border-bottom:0}
+    td:nth-child(3),td:nth-child(5){font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-weight:650;color:var(--brand-dark)}
+    .math{background:var(--ink);color:var(--paper);display:grid;grid-template-columns:.82fr 2fr;gap:26px;padding:30px;margin-top:20px}
+    .math strong{font:700 35px/1.05 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:-.045em;color:var(--pop)}
+    .math p{margin:0;font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:15px;align-self:center}
+    .offers{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+    .filter{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 15px;cursor:pointer;border-radius:999px;font-weight:650}
+    .filter[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .offer{background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;min-height:385px;position:relative}
+    .offer.digital-bank{border-top:5px solid var(--brand)}
+    .offer.ending{border-top:5px solid var(--urgent)}
+    .offer-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+    .bank{font-size:26px;letter-spacing:-.025em;margin:0}
+    .account{font-size:14px;color:var(--muted);margin:3px 0 0}
+    .tag{font:600 11px/1.25 ui-monospace,"SFMono-Regular",Consolas,monospace;text-transform:uppercase;letter-spacing:.05em;background:var(--soft);padding:7px 9px;white-space:nowrap}
+    .tag.urgent{background:var(--urgent-soft);color:var(--urgent)}
+    .headline{font-size:32px;font-weight:750;line-height:1.05;letter-spacing:-.04em;margin:22px 0 10px;color:var(--brand-dark)}
+    .deadline{font:500 13px/1.45 ui-monospace,"SFMono-Regular",Consolas,monospace;color:var(--muted);margin-bottom:16px}
+    .offer ul{padding-left:19px;margin:0 0 18px}
+    .offer li{margin:7px 0}
+    .standout{margin-top:auto;padding-top:16px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+    .standout b{color:var(--ink)}
+    .source-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .source{font:600 12px/1.2 ui-monospace,"SFMono-Regular",Consolas,monospace;color:var(--brand-dark);text-decoration:none;border-bottom:2px solid var(--pop);padding:3px 0;overflow-wrap:anywhere}
+    .source:hover,.source:focus-visible{background:var(--pop);color:#1c231e;outline:none}
+    .rule{margin-top:20px;padding:24px;background:var(--pop);color:#1c231e;font-size:19px}
+    .watch{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px}
+    .watch-intro{color:var(--muted)}
+    .watch-list{counter-reset:item;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .watch-item{background:var(--surface);padding:20px;display:grid;grid-template-columns:36px 1fr;gap:14px}
+    .watch-item:before{counter-increment:item;content:counter(item);font:600 17px/1 ui-monospace,"SFMono-Regular",Consolas,monospace;color:var(--brand-dark);padding-top:4px}
+    .watch-item b{display:block;margin-bottom:4px}
+    .watch-item p{margin:0;color:var(--muted);font-size:14px}
+    .sources{border-top:1px solid var(--line);padding:44px 0 72px}
+    .sources h2{font-size:26px;margin-bottom:16px}
+    .sources p{font-size:13px;color:var(--muted);margin:0 0 18px}
+    .links{display:flex;flex-wrap:wrap;gap:9px}
+    .links a{font-size:13px;background:var(--surface);border:1px solid var(--line);padding:8px 11px;text-decoration:none}
+    .links a:hover,.links a:focus-visible{border-color:var(--brand);color:var(--brand-dark);outline:none}
+    .disclaimer{margin-top:30px;font:500 12px/1.6 ui-monospace,"SFMono-Regular",Consolas,monospace;color:var(--muted)}
+    .hidden{display:none!important}
+    @media (max-width:800px){
+      .wrap{width:min(100% - 24px,700px)}
+      .hero{padding-top:40px}.hero:after{right:-58px;top:-10px;font-size:250px;opacity:.7}
+      .quick-grid{grid-template-columns:1fr 1fr}.quick article:last-child{grid-column:1/-1}
+      .section-head,.watch{grid-template-columns:1fr}.section-head p{justify-self:start}
+      .math{grid-template-columns:1fr}.offer-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:700px){
+      .comparison-shell{border:0;background:transparent;box-shadow:none;overflow:visible}
+      table,tbody,tr,td{display:block;width:100%} thead{display:none}
+      tbody{display:grid;gap:10px}
+      tr{background:var(--surface);border:1px solid var(--line);padding:12px 14px}
+      td{display:grid;grid-template-columns:minmax(88px,34%) 1fr;gap:10px;padding:5px 0;border:0;overflow-wrap:anywhere}
+      td:before{content:attr(data-label);font:650 10px/1.4 ui-monospace,"SFMono-Regular",Consolas,monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+    }
+    @media (max-width:520px){
+      .quick-grid{grid-template-columns:1fr}.quick article:last-child{grid-column:auto}
+      section{padding:48px 0}.quick article{padding:18px}.offer{min-height:0;padding:22px 19px}
+      .offer-top{align-items:flex-start}.tag{white-space:normal;text-align:center;max-width:118px}.headline{font-size:28px}.math{padding:22px}
+      .hero-note{display:flex}.brandline{max-width:270px}.rule{padding:20px;font-size:17px}
+    }
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  
+    /* ---- Maple Money Hacks site chrome ---- */
+    .site-nav{position:sticky;top:0;z-index:50;background:rgba(10,46,29,.96);border-bottom:1px solid rgba(212,169,60,.25)}
+    .site-nav .nav-inner{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+    .site-nav .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#F5F0E1;font-weight:900;font-size:17px;font-family:"Nunito",sans-serif}
+    .site-nav .leaf{background:#D62828;color:#fff;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px}
+    .site-nav .navlinks{display:flex;gap:18px}
+    .site-nav .navlinks a{color:rgba(245,240,225,.72);text-decoration:none;font-weight:700;font-size:14px;font-family:"Nunito",sans-serif}
+    .site-nav .navlinks a:hover{color:#f0cf7a}
+    .site-footer{border-top:1px solid #ddd2b8;padding:28px 0 40px;text-align:center;background:#0A2E1D;color:#F5F0E1}
+    .site-footer .disclaimer{font-size:13px;color:#f0cf7a;font-weight:700;margin:0 0 8px;font-family:"Nunito",sans-serif}
+    .site-footer p{font-size:13px;color:rgba(245,240,225,.72);margin:0;font-family:"Nunito",sans-serif}
+    .site-footer a{color:#f0cf7a;text-decoration:none;font-weight:700}
+    @media(max-width:560px){.site-nav .navlinks{gap:12px}.site-nav .navlinks a{font-size:13px}.site-nav .brand{font-size:15px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="Every major bank’s savings rate ranked — promo rates vs the fine print, plus what $10,000 earns in a year.">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="./index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="./index.html#guides">Guides</a>
+      <a href="./index.html#videos">Videos</a>
+      <a href="./index.html#calculators">Calculators</a>
+      <a href="./index.html#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+  <header class="hero">
+    <div class="wrap">
+      <p class="brandline">Savings Rates Guide</p>
+      <div class="stamp">Rate snapshot · September 26, 2026</div>
+      <h1>Make your savings rate earn its keep.</h1>
+      <p>Compare headline promos with the rate, fee and access rules that remain after the welcome period ends.</p>
+      <div class="hero-note">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 8v5m0 3v.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Promotional rates change fast — verify the current rate on the official bank site before opening an account.
+      </div>
+    </div>
+  </header>
+
+  <div class="quick">
+    <div class="wrap quick-grid">
+      <article><b>5.00%</b><span>highest observed headline promo rate</span></article>
+      <article><b>2.75%</b><span>top ongoing no-fee rate shown here, with 30-day notice</span></article>
+      <article><b>$40 → $500</b><span>annual interest range on $10,000 at 0.40% versus 5.00%</span></article>
+    </div>
+  </div>
+
+  <main>
+    <section class="wrap" aria-labelledby="compare-title">
+      <div class="section-head"><h2 id="compare-title">Quick comparison</h2><p>Promo terms are the catch. Compare the deadline, ongoing rate and withdrawal rules—not just the largest number.</p></div>
+      <div class="comparison-shell">
+        <table>
+          <thead><tr><th>Bank</th><th>Account</th><th>Rate</th><th>Promo terms</th><th>Monthly fee</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Bank">BMO</td><td data-label="Account">Savings Amplifier</td><td data-label="Rate">5.00% promo · 0.45% regular</td><td data-label="Promo terms">120 days · offer ends Sep 30</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Tangerine</td><td data-label="Account">Savings Account</td><td data-label="Rate">5.00% registered · 4.50% non-registered</td><td data-label="Promo terms">153 days · new clients</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">CIBC</td><td data-label="Account">eAdvantage Savings</td><td data-label="Rate">4.60% promo · 0.30%–0.60% regular</td><td data-label="Promo terms">90 days · first account</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Simplii</td><td data-label="Account">High Interest Savings</td><td data-label="Rate">4.60% promo · 0.30%–1.00% regular</td><td data-label="Promo terms">5 months · ends Oct 31</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">RBC</td><td data-label="Account">High Interest eSavings</td><td data-label="Rate">4.60% promo · 0.55% regular</td><td data-label="Promo terms">3 months · open by Oct 27</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">EQ Bank</td><td data-label="Account">Notice Savings</td><td data-label="Rate">2.75% / 2.35%</td><td data-label="Promo terms">Ongoing · 30/10-day notice</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Wealthsimple</td><td data-label="Account">Savings</td><td data-label="Rate">2.50%</td><td data-label="Promo terms">Ongoing</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Neo</td><td data-label="Account">Neo Savings</td><td data-label="Rate">2.00%–2.75%</td><td data-label="Promo terms">Ongoing · membership tiers</td><td data-label="Monthly fee">$0–$14.99</td></tr>
+            <tr><td data-label="Bank">TD</td><td data-label="Account">Growth Savings</td><td data-label="Rate">Up to 1.50%</td><td data-label="Promo terms">Cash bonus ends Oct 1</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Desjardins</td><td data-label="Account">Non-registered Savings</td><td data-label="Rate">0.55%</td><td data-label="Promo terms">None</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">Scotiabank</td><td data-label="Account">Momentum PLUS</td><td data-label="Rate">0.40% · up to 0.85%</td><td data-label="Promo terms">Premium Period feature</td><td data-label="Monthly fee">$0</td></tr>
+            <tr><td data-label="Bank">TD</td><td data-label="Account">Every Day Savings</td><td data-label="Rate">0.01%</td><td data-label="Promo terms">None</td><td data-label="Monthly fee">$0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="math"><strong>5.00% →<br>$500/year</strong><p>At 0.40% → $40/year · 2.50% → $250/year · 2.75% → $275/year · 5.00% → $500/year.</p></div>
+    </section>
+
+    <section class="offers" aria-labelledby="rates-title">
+      <div class="wrap">
+        <div class="section-head"><h2 id="rates-title">The rate board</h2><p>Filter by offer type, then open the official source before moving money. All figures below were observed September 26, 2026.</p></div>
+        <div class="controls" role="group" aria-label="Filter savings rates">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="promo" aria-pressed="false">Promo rates</button>
+          <button class="filter" type="button" data-filter="everyday" aria-pressed="false">Everyday rates</button>
+          <button class="filter" type="button" data-filter="soon" aria-pressed="false">Ending soon</button>
+        </div>
+        <div class="offer-grid" id="offer-grid">
+          <article class="offer ending" data-kind="promo soon">
+            <div class="offer-top"><div><h3 class="bank">BMO</h3><p class="account">Savings Amplifier</p></div><span class="tag urgent">Ending soon</span></div>
+            <div class="headline">5.00% total for 120 days</div>
+            <div class="deadline">Offer window: September 1–30, 2026</div>
+            <ul><li><b>Regular rate:</b> 0.45%; promo total combines 4.550% promotional and 0.450% posted interest.</li><li>Requires a new BMO Primary Chequing Account and the first Amplifier account within 30 days.</li><li>Canadian residents; online-only; one offer per customer; balances up to $1,000,000.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee and $0 minimum balance.</div>
+            <div class="source-row"><a class="source" href="https://www.bmo.com/en-ca/main/personal/bank-accounts/savings-accounts/savings-amplifier/" target="_blank" rel="noopener">Account page ↗</a><a class="source" href="https://www.bmo.com/pdf/savings-amplifier-promotional-interest-rate-offer-en.pdf" target="_blank" rel="noopener">Offer terms PDF ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="promo">
+            <div class="offer-top"><div><h3 class="bank">Tangerine</h3><p class="account">Savings Account</p></div><span class="tag">New clients</span></div>
+            <div class="headline">5.00% registered · 4.50% non-registered</div>
+            <div class="deadline">153 days (5 months)</div>
+            <ul><li><b>After promo:</b> posted rate after promo, check site.</li><li>Client Number must be created July 28–November 30, 2026.</li><li>Open an eligible account within 60 days as Primary Account Holder. Registered offer covers RSP and TFSA savings.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee and $0 minimum balance.</div>
+            <div class="source-row"><a class="source" href="https://tangerine.ca/en/offers/savings-account-promo" target="_blank" rel="noopener">Non-registered offer ↗</a><a class="source" href="https://tangerine.ca/en/offers/registered-savings-account-promo" target="_blank" rel="noopener">Registered offer ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="promo">
+            <div class="offer-top"><div><h3 class="bank">CIBC</h3><p class="account">eAdvantage Savings</p></div><span class="tag">90-day promo</span></div>
+            <div class="headline">4.60% for 90 days</div>
+            <div class="deadline">First eAdvantage account only</div>
+            <ul><li><b>Regular tiers:</b> 0.30% below $100K; 0.60% from $100K–$500K; 0.60% at $500K+.</li><li>Available on balances up to $1,000,000.</li><li>Must be age of majority and must never have held an eAdvantage account.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee; $5.00 per debit transaction.</div>
+            <div class="source-row"><a class="source" href="https://www.cibc.com/en/special-offers/smart-savings-bonus-interest.html" target="_blank" rel="noopener">Promo terms ↗</a><a class="source" href="https://www.cibc.com/en/personal-banking/bank-accounts/savings-accounts/eadvantage-high-interest-savings-account.html" target="_blank" rel="noopener">Account page ↗</a></div>
+          </article>
+
+          <article class="offer ending" data-kind="promo soon">
+            <div class="offer-top"><div><h3 class="bank">Simplii Financial</h3><p class="account">High Interest Savings</p></div><span class="tag urgent">Ending soon</span></div>
+            <div class="headline">4.60% for 5 months</div>
+            <div class="deadline">Offer ends October 31, 2026</div>
+            <ul><li><b>Regular tiers:</b> 0.30%–1.00%.</li><li>Promo applies to eligible deposits up to $200,000.</li><li>Open the High Interest Savings Account within the first 60 days of joining Simplii.</li></ul>
+            <div class="standout"><b>Fee note:</b> no monthly fees, minimum balance or transaction fees.</div>
+            <div class="source-row"><a class="source" href="https://www.simplii.com/en/special-offers/high-interest-savings-account.html" target="_blank" rel="noopener">Promo offer ↗</a><a class="source" href="http://www.simplii.com/en/bank-accounts/high-interest-savings.html" target="_blank" rel="noopener">Account page ↗</a></div>
+          </article>
+
+          <article class="offer ending" data-kind="promo soon">
+            <div class="offer-top"><div><h3 class="bank">RBC</h3><p class="account">High Interest eSavings</p></div><span class="tag urgent">Ending soon</span></div>
+            <div class="headline">4.60% for 3 months</div>
+            <div class="deadline">Open by 3:00 PM EST October 27, 2026</div>
+            <ul><li><b>Regular rate:</b> 0.55%.</li><li>New clients opening their first-ever account; balances up to $1,000,000.</li><li>The promotional period lasts three months.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee and no minimum balance.</div>
+            <div class="source-row"><a class="source" href="https://www.rbcroyalbank.com/investments/psi/hisa.html" target="_blank" rel="noopener">Account page ↗</a><a class="source" href="https://www.rbcroyalbank.com/dms/campaign/nmo/olb/index-h.html" target="_blank" rel="noopener">Offer terms ↗</a></div>
+          </article>
+
+          <article class="offer digital-bank" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">EQ Bank</h3><p class="account">Notice Savings Account</p></div><span class="tag">No-fee digital</span></div>
+            <div class="headline">2.75% at 30 days · 2.35% at 10 days</div>
+            <div class="deadline">Ongoing · not a promotional rate</div>
+            <ul><li>Choose a 30-day or 10-day notice period for withdrawals.</li><li>EQ says it does not use limited-time rate drops on this account.</li><li>Keep emergency money elsewhere if you need instant access.</li></ul>
+            <div class="standout"><b>Fee note:</b> zero everyday banking fees and no minimum balance.</div>
+            <div class="source-row"><a class="source" href="https://www.eqbank.ca/personal-banking/notice-savings-account" target="_blank" rel="noopener">EQ Bank official page ↗</a></div>
+          </article>
+
+          <article class="offer digital-bank" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">Wealthsimple</h3><p class="account">Savings</p></div><span class="tag">No-fee digital</span></div>
+            <div class="headline">2.50% flat</div>
+            <div class="deadline">Every client · every dollar · from day one</div>
+            <ul><li>Non-promotional by design; the rate does not drop after six months.</li><li>No transfer fees.</li><li>No minimum deposit.</li></ul>
+            <div class="standout"><b>Fee note:</b> no monthly fee, transfer fee or minimum deposit.</div>
+            <div class="source-row"><a class="source" href="https://wealthsimple.com/invite/LK4W87" target="_blank" rel="noopener">Open a Wealthsimple account ↗</a><a class="source" href="https://www.wealthsimple.com/en-ca/savings" target="_blank" rel="noopener">Official savings page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">Neo Financial</h3><p class="account">Neo Savings</p></div><span class="tag">Membership tiers</span></div>
+            <div class="headline">2.00%–2.75% ongoing</div>
+            <div class="deadline">Rates change October 1, 2026</div>
+            <ul><li><b>Essentials:</b> 2.00% at $0/month.</li><li><b>Build:</b> 2.50% at $9.99/month.</li><li><b>Grow:</b> 2.75% at $14.99/month. No promotional period or minimum balance.</li></ul>
+            <div class="standout"><b>Fee note:</b> paid tiers cost $119.88 or $179.88 per year—compare that cost with the extra interest.</div>
+            <div class="source-row"><a class="source" href="https://www.neofinancial.com/savings/paid/neo-savings-account" target="_blank" rel="noopener">Neo official page ↗</a></div>
+          </article>
+
+          <article class="offer ending" data-kind="everyday soon">
+            <div class="offer-top"><div><h3 class="bank">TD</h3><p class="account">Growth Savings</p></div><span class="tag urgent">Bonus ends soon</span></div>
+            <div class="headline">Up to 1.50% boosted</div>
+            <div class="deadline">Cash bonus offer ends October 1, 2026</div>
+            <ul><li>Boosted rate requires $5K+ balance, eligible TD chequing and 2 of 3 monthly actions: direct deposit, online bill payment or pre-authorized debit.</li><li><b>Cash bonus—not a rate promo:</b> $10k→$200 · $25k→$350 · $50k→$600 · $100k→$1,000 · $250k→$2,500 · $500k+→$5,000.</li><li>Deposit $10,000+ from another institution within 30 days and maintain the balance for 90 days.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee.</div>
+            <div class="source-row"><a class="source" href="https://www.td.com/ca/en/personal-banking/products/bank-accounts/savings-accounts/epremium-savings-account" target="_blank" rel="noopener">Growth Savings page ↗</a><a class="source" href="https://td.com/ca/en/personal-banking/new-bank-account-offers-promotions/savings-offer" target="_blank" rel="noopener">Cash offer ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">Desjardins</h3><p class="account">Non-registered Savings Account</p></div><span class="tag">Everyday rate</span></div>
+            <div class="headline">0.55% regular</div>
+            <div class="deadline">No promotional period</div>
+            <ul><li>Regular savings rate.</li><li>No minimum balance.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee.</div>
+            <div class="source-row"><a class="source" href="https://www.desjardins.com/en/accounts-services/savings-accounts.html" target="_blank" rel="noopener">Desjardins official page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">Scotiabank</h3><p class="account">Momentum PLUS Savings</p></div><span class="tag">Premium periods</span></div>
+            <div class="headline">0.40% regular · up to 0.85%</div>
+            <div class="deadline">Official rates table effective September 26, 2026</div>
+            <ul><li>Premium Period additions: +0.20% (90d), +0.25% (180d), +0.30% (270d), +0.45% (360d).</li><li>Withdrawing during a Premium Period forfeits that period’s premium interest.</li><li><b>The old 4.05% welcome bonus is no longer available.</b></li></ul>
+            <div class="standout"><b>Fee note:</b> no monthly fee and no minimum balance.</div>
+            <div class="source-row"><a class="source" href="https://www.scotiabank.com/ca/en/personal/bank-accounts/savings-accounts/momentum-plus-savings-account.html" target="_blank" rel="noopener">Scotiabank official page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="everyday">
+            <div class="offer-top"><div><h3 class="bank">TD</h3><p class="account">Every Day Savings</p></div><span class="tag">Everyday rate</span></div>
+            <div class="headline">0.01% on all tiers</div>
+            <div class="deadline">No promotional rate</div>
+            <ul><li>The same 0.01% applies across every balance tier.</li><li>Compare with Growth Savings if you can meet its balance and activity requirements.</li></ul>
+            <div class="standout"><b>Fee note:</b> $0 monthly fee.</div>
+            <div class="source-row"><a class="source" href="https://www.td.com/ca/en/personal-banking/products/bank-accounts/savings-accounts/epremium-savings-account" target="_blank" rel="noopener">TD savings page ↗</a><a class="source" href="https://td.com/ca/en/personal-banking/new-bank-account-offers-promotions/savings-offer" target="_blank" rel="noopener">TD savings offer ↗</a></div>
+          </article>
+        </div>
+        <div class="rule"><b>The golden rule:</b> Promos expire in 3–5 months, then rates drop to almost nothing. Set a reminder, move your money, and chase the next promo.</div>
+      </div>
+    </section>
+
+    <section class="wrap watch" aria-labelledby="watch-title">
+      <div><h2 id="watch-title">Read this before chasing a rate</h2><p class="watch-intro">A high rate only wins when you qualify, can leave the money where required, and know what happens next.</p></div>
+      <div class="watch-list">
+        <div class="watch-item"><div><b>The promo rate is temporary.</b><p>Know what the rate drops to after the offer period.</p></div></div>
+        <div class="watch-item"><div><b>New-client offers exclude existing customers.</b><p>Check the eligibility dates and prior-account rules.</p></div></div>
+        <div class="watch-item"><div><b>Caps and tiers change your real return.</b><p>The eligible-deposit cap is $200K at Simplii and $1M at BMO and CIBC.</p></div></div>
+        <div class="watch-item"><div><b>Notice accounts trade access for yield.</b><p>Withdrawals can be locked for 10–30 days, so keep emergency cash instant-access.</p></div></div>
+        <div class="watch-item"><div><b>Membership rates have a price.</b><p>Neo’s paid tiers cost a monthly fee. Do the math on your balance before upgrading.</p></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sources">
+    <div class="wrap">
+      <h2>Research sources</h2>
+      <p>Official bank pages used for this September 26, 2026 rate snapshot.</p>
+      <div class="links">
+        <a href="https://www.bmo.com/en-ca/main/personal/bank-accounts/savings-accounts/savings-amplifier/" target="_blank" rel="noopener">BMO</a>
+        <a href="https://www.bmo.com/pdf/savings-amplifier-promotional-interest-rate-offer-en.pdf" target="_blank" rel="noopener">BMO terms</a>
+        <a href="https://tangerine.ca/en/offers/savings-account-promo" target="_blank" rel="noopener">Tangerine</a>
+        <a href="https://tangerine.ca/en/offers/registered-savings-account-promo" target="_blank" rel="noopener">Tangerine registered</a>
+        <a href="https://www.cibc.com/en/special-offers/smart-savings-bonus-interest.html" target="_blank" rel="noopener">CIBC offer</a>
+        <a href="https://www.cibc.com/en/personal-banking/bank-accounts/savings-accounts/eadvantage-high-interest-savings-account.html" target="_blank" rel="noopener">CIBC account</a>
+        <a href="https://www.simplii.com/en/special-offers/high-interest-savings-account.html" target="_blank" rel="noopener">Simplii offer</a>
+        <a href="http://www.simplii.com/en/bank-accounts/high-interest-savings.html" target="_blank" rel="noopener">Simplii account</a>
+        <a href="https://www.rbcroyalbank.com/investments/psi/hisa.html" target="_blank" rel="noopener">RBC account</a>
+        <a href="https://www.rbcroyalbank.com/dms/campaign/nmo/olb/index-h.html" target="_blank" rel="noopener">RBC offer</a>
+        <a href="https://www.eqbank.ca/personal-banking/notice-savings-account" target="_blank" rel="noopener">EQ Bank</a>
+        <a href="https://www.wealthsimple.com/en-ca/savings" target="_blank" rel="noopener">Wealthsimple</a>
+        <a href="https://www.neofinancial.com/savings/paid/neo-savings-account" target="_blank" rel="noopener">Neo</a>
+        <a href="https://www.td.com/ca/en/personal-banking/products/bank-accounts/savings-accounts/epremium-savings-account" target="_blank" rel="noopener">TD Growth</a>
+        <a href="https://td.com/ca/en/personal-banking/new-bank-account-offers-promotions/savings-offer" target="_blank" rel="noopener">TD offer</a>
+        <a href="https://www.desjardins.com/en/accounts-services/savings-accounts.html" target="_blank" rel="noopener">Desjardins</a>
+        <a href="https://www.scotiabank.com/ca/en/personal/bank-accounts/savings-accounts/momentum-plus-savings-account.html" target="_blank" rel="noopener">Scotiabank</a>
+      </div>
+      <div class="disclaimer">Rates change frequently and were observed September 26, 2026. Verify the current rate on the official bank site before opening an account. Educational information only — not financial advice.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var buttons=document.querySelectorAll('.filter');
+      var cards=document.querySelectorAll('.offer');
+      buttons.forEach(function(button){
+        button.addEventListener('click',function(){
+          var filter=button.getAttribute('data-filter');
+          buttons.forEach(function(b){b.setAttribute('aria-pressed',String(b===button));});
+          cards.forEach(function(card){
+            var kinds=(card.getAttribute('data-kind')||'').split(' ');
+            card.classList.toggle('hidden',filter!=='all'&&kinds.indexOf(filter)===-1);
+          });
+        });
+      });
+    })();
+  </script>
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>&copy; 2026 Maple Money Hacks &middot; Made with &#127809; in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+</body>
+</html>

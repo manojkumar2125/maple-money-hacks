@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <link rel="icon" href="data:," />
+  <title>Chequing Account Offers (Canada 2026) — Maple Money Hacks</title>
+  <style>
+    :root {
+      --ink:#0A2E1D; --muted:#5c6d60; --paper:#F5F0E1; --surface:#FFFDF6;
+      --line:#ddd2b8; --brand:#0A2E1D; --brand-dark:#071f14; --pop:#D4A93C;
+      --soft:#ece3c9; --urgent:#D62828; --urgent-soft:#f7ddd2; --shadow:0 18px 50px rgba(10,46,29,.10);
+    }
+    
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+    a{color:inherit}
+    button{font:inherit}
+    .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+    .hero{padding:clamp(44px,8vw,96px) 0 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero:after{content:"$";position:absolute;right:max(-40px,calc((100vw - 1160px)/2));top:-78px;font:700 clamp(260px,34vw,470px)/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--soft);z-index:-1;transform:rotate(8deg)}
+    .stamp{font:600 12px/1.4 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-dark);display:flex;gap:10px;align-items:center;margin-bottom:20px}
+    .stamp:before{content:"";width:32px;height:3px;background:var(--pop)}
+    h1{font-size:clamp(40px,7vw,82px);line-height:.95;letter-spacing:-.055em;max-width:850px;margin:0 0 24px}
+    .hero p{font-size:clamp(18px,2vw,23px);max-width:680px;margin:0 0 28px;color:var(--muted)}
+    .hero-note{display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:var(--paper);padding:11px 15px;font:500 13px/1.35 ui-monospace,"SFMono-Regular",Consolas,monospace;max-width:700px}
+    .hero-note svg{flex:none}
+    .quick{padding:28px 0;border-bottom:1px solid var(--line)}
+    .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+    .quick article{background:var(--surface);padding:24px}
+    .quick b{font-size:29px;line-height:1;display:block;letter-spacing:-.04em;color:var(--brand-dark)}
+    .quick span{display:block;color:var(--muted);font-size:14px;margin-top:8px}
+    section{padding:64px 0}
+    .section-head{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:end;margin-bottom:28px}
+    h2{font-size:clamp(29px,4vw,46px);line-height:1.05;letter-spacing:-.035em;margin:0}
+    .section-head p{margin:0;color:var(--muted);max-width:530px;justify-self:end}
+    .types{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .type{padding:24px 20px;background:var(--surface);border-top:5px solid var(--ink);min-height:220px;box-shadow:var(--shadow)}
+    .type.digital{border-color:var(--brand);background:var(--soft)}
+    .type h3{font-size:21px;margin:0 0 14px}
+    .price{font:600 20px/1.2 ui-monospace,"SFMono-Regular",Consolas,monospace;color:var(--brand-dark)}
+    .type p{font-size:14px;color:var(--muted);margin:12px 0 0}
+    .math{margin-top:18px;background:var(--ink);color:var(--paper);display:grid;grid-template-columns:1.1fr 2fr;gap:24px;padding:28px}
+    .math strong{font-size:32px;line-height:1;letter-spacing:-.03em;color:var(--pop)}
+    .math p{margin:0}
+    .offers{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+    .filter{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 15px;cursor:pointer;border-radius:999px;font-weight:600}
+    .filter[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .offer{background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;min-height:370px;position:relative}
+    .offer.digital-bank{border-top:5px solid var(--brand)}
+    .offer.ending{border-top:5px solid var(--urgent)}
+    .offer-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+    .bank{font-size:26px;letter-spacing:-.025em;margin:0}
+    .tag{font:600 11px/1.25 "IBM Plex Mono";text-transform:uppercase;letter-spacing:.05em;background:var(--soft);padding:7px 9px;white-space:nowrap}
+    .tag.urgent{background:var(--urgent-soft);color:var(--urgent)}
+    .headline{font-size:32px;font-weight:700;line-height:1.05;letter-spacing:-.04em;margin:22px 0 10px;color:var(--brand-dark)}
+    .deadline{font:500 13px/1.4 "IBM Plex Mono";color:var(--muted);margin-bottom:16px}
+    .offer ul{padding-left:19px;margin:0 0 18px}
+    .offer li{margin:7px 0}
+    .standout{margin-top:auto;padding-top:16px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+    .standout b{color:var(--ink)}
+    .source-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .source{font:600 12px/1.2 "IBM Plex Mono";color:var(--brand-dark);text-decoration:none;border-bottom:2px solid var(--pop);padding-bottom:3px}
+    .source:hover,.source:focus-visible{background:var(--pop);outline:none}
+    .chooser-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .choice{padding:26px;border:1px solid var(--line);background:var(--surface)}
+    .choice .for{font:600 12px/1.3 "IBM Plex Mono";text-transform:uppercase;color:var(--brand-dark)}
+    .choice h3{font-size:25px;line-height:1.1;margin:12px 0}
+    .choice p{color:var(--muted);margin:0 0 14px}
+    .choice .number{font:600 18px/1.35 "IBM Plex Mono";background:var(--soft);padding:12px;display:block;color:var(--brand-dark)}
+    .rule{margin-top:18px;padding:24px;background:var(--pop);color:#1c231e;font-size:19px}
+    .watch{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px}
+    .watch-list{counter-reset:item;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .watch-item{background:var(--surface);padding:20px;display:grid;grid-template-columns:36px 1fr;gap:14px}
+    .watch-item:before{counter-increment:item;content:counter(item);font:600 17px/1 "IBM Plex Mono";color:var(--brand-dark);padding-top:4px}
+    .watch-item b{display:block;margin-bottom:4px}
+    .watch-item p{margin:0;color:var(--muted);font-size:14px}
+    .sources{border-top:1px solid var(--line);padding:44px 0 72px}
+    .sources h2{font-size:26px;margin-bottom:16px}
+    .sources p{font-size:13px;color:var(--muted);margin:0 0 18px}
+    .links{display:flex;flex-wrap:wrap;gap:9px}
+    .links a{font-size:13px;background:var(--surface);border:1px solid var(--line);padding:8px 11px;text-decoration:none}
+    .links a:hover,.links a:focus-visible{border-color:var(--brand);color:var(--brand-dark);outline:none}
+    .disclaimer{margin-top:30px;font-size:12px;color:var(--muted);font-family:"IBM Plex Mono"}
+    .hidden{display:none!important}
+    @media (max-width:800px){
+      .wrap{width:min(100% - 24px,700px)}
+      .hero{padding-top:44px}.hero:after{right:-58px;top:-10px;font-size:250px;opacity:.7}
+      .quick-grid,.types,.chooser-grid{grid-template-columns:1fr 1fr}
+      .section-head,.watch{grid-template-columns:1fr}.section-head p{justify-self:start}
+      .math{grid-template-columns:1fr}.offer-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:520px){
+      .quick-grid,.types,.chooser-grid{grid-template-columns:1fr}
+      section{padding:48px 0}.quick article{padding:18px}.type{min-height:0}.offer{min-height:0;padding:22px 19px}
+      .offer-top{align-items:center}.headline{font-size:28px}.math{padding:22px}.hero-note{display:flex}
+    }
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  
+    /* ---- Maple Money Hacks site chrome ---- */
+    .site-nav{position:sticky;top:0;z-index:50;background:rgba(10,46,29,.96);border-bottom:1px solid rgba(212,169,60,.25)}
+    .site-nav .nav-inner{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+    .site-nav .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#F5F0E1;font-weight:900;font-size:17px;font-family:"Nunito",sans-serif}
+    .site-nav .leaf{background:#D62828;color:#fff;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px}
+    .site-nav .navlinks{display:flex;gap:18px}
+    .site-nav .navlinks a{color:rgba(245,240,225,.72);text-decoration:none;font-weight:700;font-size:14px;font-family:"Nunito",sans-serif}
+    .site-nav .navlinks a:hover{color:#f0cf7a}
+    .site-footer{border-top:1px solid #ddd2b8;padding:28px 0 40px;text-align:center;background:#0A2E1D;color:#F5F0E1}
+    .site-footer .disclaimer{font-size:13px;color:#f0cf7a;font-weight:700;margin:0 0 8px;font-family:"Nunito",sans-serif}
+    .site-footer p{font-size:13px;color:rgba(245,240,225,.72);margin:0;font-family:"Nunito",sans-serif}
+    .site-footer a{color:#f0cf7a;text-decoration:none;font-weight:700}
+    @media(max-width:560px){.site-nav .navlinks{gap:12px}.site-nav .navlinks a{font-size:13px}.site-nav .brand{font-size:15px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="Compare 9 Canadian chequing-account offers side by side — signup bonuses, monthly fees and the fine print.">
+</head>
+<body>
+<nav class="site-nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="./index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="./index.html#guides">Guides</a>
+      <a href="./index.html#videos">Videos</a>
+      <a href="./index.html#calculators">Calculators</a>
+      <a href="./index.html#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+  <header class="hero">
+    <div class="wrap">
+      <div class="stamp">Offer snapshot · September 26, 2026</div>
+      <h1>Stop choosing a bank by the bonus alone.</h1>
+      <p>Compare nine Canadian chequing-account offers, see what the monthly fee really costs, and pick a lane that fits your cash flow.</p>
+      <div class="hero-note">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 8v5m0 3v.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Offers change fast. Verify eligibility, deadlines and terms on the bank’s own page before applying.
+      </div>
+    </div>
+  </header>
+
+  <div class="quick">
+    <div class="wrap quick-grid">
+      <article><b>$0</b><span>monthly fee at Tangerine, Simplii and Wealthsimple</span></article>
+      <article><b>$203.40</b><span>annual cost of a $16.95 monthly fee</span></article>
+      <article><b>Up to $1,000</b><span>Scotiabank bundle headline; conditions apply</span></article>
+    </div>
+  </div>
+
+  <main>
+    <section class="wrap" aria-labelledby="types-title">
+      <div class="section-head"><h2 id="types-title">Four ways to bank</h2><p>Big-bank fee waivers can work well if you already hold the required balance. Digital accounts keep that cash available elsewhere.</p></div>
+      <div class="types">
+        <article class="type"><h3>Basic</h3><div class="price">$3.95–$12/mo</div><p>Usually 12–25 transactions. Best for light debit use.</p></article>
+        <article class="type"><h3>Unlimited</h3><div class="price">about $16.95/mo</div><p>Unlimited transactions. The default mid-tier account for many Canadians.</p></article>
+        <article class="type"><h3>Premium</h3><div class="price">about $30/mo</div><p>Unlimited banking plus travel perks and credit-card fee rebates.</p></article>
+        <article class="type digital"><h3>Digital</h3><div class="price">$0/mo</div><p>Unlimited online banking, with no minimum balance to park.</p></article>
+      </div>
+      <div class="math"><strong>$16.95 × 12<br>= $203.40</strong><p>Parking <b>$4,000</b> to waive a $16.95 monthly fee saves <b>$203.40 a year</b> — equivalent to a <b>5.1% return</b> on that balance. The trade-off: that cash stays tied up to preserve the waiver.</p></div>
+    </section>
+
+    <section class="offers" aria-labelledby="offers-title">
+      <div class="wrap">
+        <div class="section-head"><h2 id="offers-title">The offer board</h2><p>Compare the headline first, then read the requirements. “Up to” totals often combine chequing, savings, cards or other products.</p></div>
+        <div class="controls" role="group" aria-label="Filter bank offers">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All 9</button>
+          <button class="filter" type="button" data-filter="big" aria-pressed="false">Big-bank</button>
+          <button class="filter" type="button" data-filter="digital" aria-pressed="false">No-fee digital</button>
+          <button class="filter" type="button" data-filter="soon" aria-pressed="false">Ending soon</button>
+        </div>
+        <div class="offer-grid" id="offer-grid">
+          <article class="offer" data-kind="big">
+            <div class="offer-top"><h3 class="bank">RBC</h3><span class="tag">Big bank</span></div>
+            <div class="headline">$150 cash or an iPad</div>
+            <div class="deadline">Cash: Dec 8 · iPad: Nov 2, 2026</div>
+            <ul><li><b>$150:</b> open Day to Day Banking online; no monthly fee for one year.</li><li><b>iPad ($649 stated value):</b> open Signature No Limit or VIP and complete the required payroll deposit, automatic payment or bill-payment steps.</li><li>Eligible accounts may offer up to 60,000 WestJet points.</li></ul>
+            <div class="standout"><b>Fee note:</b> Signature No Limit is $16.95/month; the Value Program can reduce it to about $4 when you hold more than one eligible RBC product.</div>
+            <div class="source-row"><a class="source" href="https://www.rbcroyalbank.com/bank-accounts/new-bank-accounts-offers-canada.html" target="_blank" rel="noopener">RBC offer page ↗</a></div>
+          </article>
+
+          <article class="offer ending" data-kind="big soon">
+            <div class="offer-top"><h3 class="bank">TD</h3><span class="tag urgent">Ends Oct 1</span></div>
+            <div class="headline">Up to $750 in value</div>
+            <div class="deadline">Ends October 1, 2026</div>
+            <ul><li>$500 chequing component requires direct deposit plus two of the bank’s three required account-use steps.</li><li>Up to $150 savings component includes a 4% bonus interest rate.</li><li>The headline total also includes a credit-card bundle. The separate student offer is $150 cash by Nov 2, with no monthly fee.</li></ul>
+            <div class="standout"><b>Fee note:</b> $17.95 Unlimited fee waived at $4,000 daily balance; $30.95 All-Inclusive fee waived at $6,000.</div>
+            <div class="source-row"><a class="source" href="https://www.td.com/ca/en/personal-banking/new-bank-account-offers-promotions" target="_blank" rel="noopener">TD offer page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="big">
+            <div class="offer-top"><h3 class="bank">BMO</h3><span class="tag">Big bank</span></div>
+            <div class="headline">Up to $900</div>
+            <div class="deadline">Ends November 2, 2026</div>
+            <ul><li>$700 chequing component requires a $500+ direct deposit and the bank’s required bill payments or automatically scheduled payments.</li><li>$150 savings component requires $10,000+ held for 210 days.</li><li>$50 for using My Financial Progress; 12-month Walmart+ membership also included.</li></ul>
+            <div class="standout"><b>Fee note:</b> $17.95 Performance fee waived at $4,000; $30.95 Premium fee waived at $6,000. Newcomer version offers two years with no monthly fees.</div>
+            <div class="source-row"><a class="source" href="https://www.bmo.com/en-ca/main/personal/bank-accounts/new-bank-account-offers-and-promotions/" target="_blank" rel="noopener">BMO offer page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="big">
+            <div class="offer-top"><h3 class="bank">Scotiabank</h3><span class="tag">Big bank</span></div>
+            <div class="headline">$700 cash · up to $1,000 bundled</div>
+            <div class="deadline">Ends October 29, 2026</div>
+            <ul><li>Open Preferred or Ultimate; set up direct deposit plus one required automatic payment, bill payment or Visa Debit purchase.</li><li>Add a Money Master Savings Account and/or credit card for up to $300 more.</li><li>Earn Scene+ points on everyday banking.</li></ul>
+            <div class="standout"><b>Fee note:</b> Preferred is $16.95, waived at $4,000; Ultimate is $30.95, waived at $5,000. StartRight newcomers get year one waived on Preferred.</div>
+            <div class="source-row"><a class="source" href="https://www.scotiabank.com/ca/en/personal/bank-accounts/chequing-accounts/preferred.html" target="_blank" rel="noopener">Scotiabank offer page ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="big">
+            <div class="offer-top"><h3 class="bank">CIBC</h3><span class="tag">Big bank</span></div>
+            <div class="headline">Up to $400</div>
+            <div class="deadline">Expiry varies by sub-offer</div>
+            <ul><li>Requires a $500+ monthly direct deposit plus one of the bank’s three required account-use steps.</li><li>Up to $850 when bundled with a Dividend Visa Infinite card.</li><li>Newcomer offer: $500 plus two years no fee; Smart Start youth offer: $175.</li></ul>
+            <div class="standout"><b>Fee note:</b> Smart ranges from $6.95–$16.95 and is waived at $4,000; Smart Plus is $29.95, waived at $6,000 or $100,000 combined savings and investments.</div>
+            <div class="source-row"><a class="source" href="https://www.cibc.com/en/special-offers.html" target="_blank" rel="noopener">CIBC offers ↗</a></div>
+          </article>
+
+          <article class="offer" data-kind="big">
+            <div class="offer-top"><h3 class="bank">National Bank</h3><span class="tag">Big bank</span></div>
+            <div class="headline">Up to $600 cashback</div>
+            <div class="deadline">Ends November 3, 2026</div>
+            <ul><li>$300 chequing component requires online banking and 20 transactions.</li><li>Separate $100 components cover a credit card, an automatically scheduled mortgage payment and a high-interest savings account with a $5,000 deposit.</li><li>Newcomers: up to three years no fees plus $100 cashback.</li></ul>
+            <div class="standout"><b>Fee note:</b> Connected costs $15.95 and is waived at $4,500. Minimalist costs $3.95 for 12 debit transactions.</div>
+            <div class="source-row"><a class="source" href="https://www.nationalbank.com/personal/accounts/chequing/connected.html" target="_blank" rel="noopener">National Bank offer ↗</a></div>
+          </article>
+
+          <article class="offer digital-bank" data-kind="digital">
+            <div class="offer-top"><h3 class="bank">Tangerine</h3><span class="tag">No monthly fee</span></div>
+            <div class="headline">$250 cash</div>
+            <div class="deadline">Ends October 31, 2026</div>
+            <ul><li>Move full payroll direct deposit for two consecutive months; minimum $200/month.</li><li>No-Fee Daily Chequing: $0/month, unlimited transactions.</li><li>Account earns 0.30% interest; free use of Scotiabank and Global ATM Alliance machines.</li></ul>
+            <div class="standout"><b>Good to know:</b> no minimum balance to park; first 50 cheques are free.</div>
+          </article>
+
+          <article class="offer digital-bank ending" data-kind="digital soon">
+            <div class="offer-top"><h3 class="bank">Simplii</h3><span class="tag urgent">Ends Sep 30</span></div>
+            <div class="headline">$300 + $50 Skip gift card</div>
+            <div class="deadline">Ends September 30, 2026</div>
+            <ul><li>Requires $100+ monthly direct deposit for three straight months.</li><li>No Fee Chequing: $0/month, unlimited transactions and 0.01% interest.</li><li>Free CIBC ATM access and free Skip+ membership.</li></ul>
+            <div class="standout"><b>Availability:</b> Simplii is not available in Quebec.</div>
+            <div class="source-row"><a class="source" href="https://www.simplii.com/en/bank-accounts/no-fee-chequing.html" target="_blank" rel="noopener">Simplii offer page ↗</a></div>
+          </article>
+
+          <article class="offer digital-bank" data-kind="digital">
+            <div class="offer-top"><h3 class="bank">Wealthsimple</h3><span class="tag">Sleeper pick</span></div>
+            <div class="headline">No signup cash bonus</div>
+            <div class="deadline">2.5% interest on Cash</div>
+            <ul><li>Cash account: $0/month, unlimited transactions, no minimum balance and 2.5% interest.</li><li>No signup cash bonus; earn a $25 referral bonus for each friend who signs up and funds their account.</li></ul>
+            <div class="standout"><b>Best for a tight budget:</b> no fee or balance to park, while your Cash balance earns 2.5% interest.</div>
+            <div class="source-row"><a class="source" href="https://wealthsimple.com/invite/LK4W87" target="_blank" rel="noopener">Open a Wealthsimple account ↗</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="fit-title">
+      <div class="section-head"><h2 id="fit-title">Choose by cash flow, not status</h2><p>These are practical starting points, not rules. Compare the ongoing fee and features against how you actually bank.</p></div>
+      <div class="chooser-grid">
+        <article class="choice"><div class="for">Money is tight or student</div><h3>Keep the fee at zero</h3><p>Tangerine, Simplii and Wealthsimple avoid tying up $4,000 just to preserve a fee waiver. Wealthsimple is the sleeper pick when you want your balance earning interest from day one.</p><span class="number">$0 fee · no minimum balance at Wealthsimple</span></article>
+        <article class="choice"><div class="for">About $50k–$80k income + cushion</div><h3>Make the waiver work</h3><p>A $4,000 balance can erase about $203.40 a year on a common mid-tier plan. BMO has the largest straight-cash headline shown at up to $900; Scotiabank’s bundled headline reaches up to $1,000.</p><span class="number">5.1% fee-saving equivalent on $4,000</span></article>
+        <article class="choice"><div class="for">$90k+ income or frequent travel</div><h3>Price the premium perks</h3><p>A $6,000 balance can waive about $30 monthly, while card rebates and travel features may add value.</p><span class="number">About $360/year saved = 6% on $6,000</span></article>
+      </div>
+      <div class="rule"><b>The golden rule:</b> the bonus is a one-time sugar rush; the fee structure is the daily diet. Choose the fee you can live with first, bonus second.</div>
+    </section>
+
+    <section class="wrap watch" aria-labelledby="watch-title">
+      <div><h2 id="watch-title">Read this before switching</h2><p style="color:var(--muted)">A large headline is not the same thing as easy money. Treat every condition as part of the price.</p></div>
+      <div class="watch-list">
+        <div class="watch-item"><div><b>Complete every action.</b><p>Payroll deposits, automatically scheduled payments and bill payments may need to continue for months.</p></div></div>
+        <div class="watch-item"><div><b>Check clawback terms.</b><p>CIBC may reclaim its bonus if the qualifying direct deposit is removed within a year.</p></div></div>
+        <div class="watch-item"><div><b>Confirm new-client eligibility.</b><p>Prior chequing-account history at the same bank can make you ineligible.</p></div></div>
+        <div class="watch-item"><div><b>Price the effort.</b><p>Switching banks takes work. Make sure the ongoing account still fits after the bonus is gone.</p></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sources">
+    <div class="wrap">
+      <h2>Research sources</h2>
+      <p>Offer snapshot compiled September 26, 2026. Official bank pages are the final authority.</p>
+      <div class="links">
+        <a href="https://www.rbcroyalbank.com/bank-accounts/new-bank-accounts-offers-canada.html" target="_blank" rel="noopener">RBC</a>
+        <a href="https://www.td.com/ca/en/personal-banking/new-bank-account-offers-promotions" target="_blank" rel="noopener">TD</a>
+        <a href="https://www.bmo.com/en-ca/main/personal/bank-accounts/new-bank-account-offers-and-promotions/" target="_blank" rel="noopener">BMO</a>
+        <a href="https://www.scotiabank.com/ca/en/personal/bank-accounts/chequing-accounts/preferred.html" target="_blank" rel="noopener">Scotiabank</a>
+        <a href="https://www.cibc.com/en/special-offers.html" target="_blank" rel="noopener">CIBC</a>
+        <a href="https://www.nationalbank.com/personal/accounts/chequing/connected.html" target="_blank" rel="noopener">National Bank</a>
+        <a href="https://www.simplii.com/en/bank-accounts/no-fee-chequing.html" target="_blank" rel="noopener">Simplii</a>
+        <a href="https://wealthsimple.com/invite/LK4W87" target="_blank" rel="noopener">Wealthsimple</a>
+      </div>
+      <div class="disclaimer">Educational information only — not financial advice. Read the full terms before opening an account.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var buttons=document.querySelectorAll('.filter');
+      var cards=document.querySelectorAll('.offer');
+      buttons.forEach(function(button){
+        button.addEventListener('click',function(){
+          var filter=button.getAttribute('data-filter');
+          buttons.forEach(function(b){b.setAttribute('aria-pressed',String(b===button));});
+          cards.forEach(function(card){
+            var kinds=(card.getAttribute('data-kind')||'').split(' ');
+            card.classList.toggle('hidden',filter!=='all'&&kinds.indexOf(filter)===-1);
+          });
+        });
+      });
+    })();
+  </script>
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>&copy; 2026 Maple Money Hacks &middot; Made with &#127809; in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+</body>
+</html>

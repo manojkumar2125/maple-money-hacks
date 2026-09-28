@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>TFSA vs RRSP vs FHSA (Canada 2026) — Maple Money Hacks</title>
+  <meta name="description" content="How Canada’s TFSA, RRSP, FHSA, RESP and non-registered accounts work — 2026 limits, tax math and which to fund first.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#F5F0E1; --paper:#FFFDF6; --ink:#0A2E1D; --muted:#5c6d60; --line:#ddd2b8;
+      --soft:#ece3c9; --red:#D62828; --red-ink:#a11f22; --red-soft:#f7ddd2;
+      --green:#0A2E1D; --green-soft:#e3e9d4; --gold:#9a6b12; --gold-soft:#f0e2c4;
+      --blue:#27536c; --blue-soft:#dfe9ef;
+      --shadow:0 18px 44px rgba(10,46,29,.08); --radius-lg:28px; --radius-md:16px; --max:1140px;
+    }
+    
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Nunito", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .mast {
+      position: relative;
+      overflow: hidden;
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .mast::after {
+      content: "";
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      right: -180px;
+      top: -150px;
+      border: 74px solid var(--red-soft);
+      border-radius: 50%;
+      opacity: .72;
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr);
+      gap: 62px;
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+    .issue {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--red-ink);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .issue::before { content: ""; width: 32px; height: 3px; background: var(--red); }
+    h1, h2, h3 { margin: 0; line-height: 1.08; }
+    h1 {
+      margin-top: 18px;
+      max-width: 790px;
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(3.1rem, 7.1vw, 6.8rem);
+      letter-spacing: -.055em;
+    }
+    h1 .vs { color: var(--red); font-style: italic; font-size: .62em; }
+    .lede {
+      max-width: 675px;
+      margin: 26px 0 0;
+      font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+      color: var(--muted);
+    }
+    .hero-note {
+      padding: 26px 28px;
+      background: var(--green-soft);
+      border-top: 5px solid var(--green);
+      box-shadow: var(--shadow);
+    }
+    .hero-note strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--green); margin-bottom: 12px; }
+    .hero-note p { margin: 0; font-family: "Nunito", sans-serif; font-weight: 700; font-size: 1.28rem; line-height: 1.35; }
+    .asof { margin-top: 16px; color: var(--muted); font: .76rem ui-monospace,"SFMono-Regular",Consolas,monospace; }
+    .jumpbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .jumpbar .wrap { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-block: 10px; }
+    .jumpbar .wrap::-webkit-scrollbar { display:none; }
+    .jumpbar a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+    .jumpbar a:hover, .jumpbar a:focus-visible { background: var(--paper); color: var(--ink); outline: none; }
+    section { padding: 78px 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; margin-bottom: 36px; }
+    .section-no { font: 500 .76rem ui-monospace,"SFMono-Regular",Consolas,monospace; color: var(--red-ink); letter-spacing: .08em; text-transform: uppercase; padding-top: 8px; }
+    h2 { font-family: "Nunito", sans-serif; font-size: clamp(2.2rem, 4.8vw, 4.1rem); letter-spacing: -.045em; }
+    .section-intro { max-width: 720px; margin: 18px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .tax-panel { background: var(--paper); box-shadow: var(--shadow); padding: 34px; }
+    .tax-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+    .tax-top h3 { font-size: 1.35rem; }
+    .tax-top p { margin: 6px 0 0; color: var(--muted); }
+    .mono-note { font: .72rem ui-monospace,"SFMono-Regular",Consolas,monospace; color: var(--muted); text-align: right; }
+    .tax-bars { display: grid; gap: 22px; }
+    .tax-row { display: grid; grid-template-columns: 150px 1fr 76px; gap: 16px; align-items: center; }
+    .tax-label strong { display:block; }
+    .tax-label span { color: var(--muted); font-size:.78rem; }
+    .track { height: 16px; background: var(--soft); overflow: hidden; }
+    .fill { height: 100%; width: var(--w); background: var(--red); }
+    .tax-row:nth-child(2) .fill { background: var(--gold); }
+    .tax-row:nth-child(3) .fill { background: var(--blue); }
+    .tax-amount { font: 500 1rem ui-monospace,"SFMono-Regular",Consolas,monospace; text-align:right; }
+    .tax-bottom { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+    .tax-bottom p { margin: 0; max-width: 700px; }
+    .tax-bottom strong { color: var(--green); }
+    .zero-badge { font: 500 .85rem ui-monospace,"SFMono-Regular",Consolas,monospace; padding: 12px 16px; background: var(--green-soft); color: var(--green); white-space: nowrap; }
+    .account-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .account {
+      grid-column: span 6;
+      background: var(--paper);
+      border-top: 6px solid var(--accent);
+      padding: 30px;
+      min-height: 350px;
+    }
+    .account.wide { grid-column: span 12; min-height: auto; display:grid; grid-template-columns: 1fr 1.45fr; gap:40px; }
+    .account-tag { color: var(--accent); font: 500 .74rem ui-monospace,"SFMono-Regular",Consolas,monospace; text-transform:uppercase; letter-spacing:.08em; }
+    .account h3 { margin-top: 8px; font-size: 2rem; letter-spacing: -.035em; }
+    .limit { font-family: "Nunito", sans-serif; font-weight: 700; font-size: 1.65rem; margin: 20px 0 16px; }
+    .limit span { color: var(--muted); font-family:"Public Sans",sans-serif; font-weight:500; font-size:.8rem; }
+    .account ul { list-style:none; margin:0; padding:0; }
+    .account li { position:relative; padding: 10px 0 10px 21px; border-top: 1px solid var(--line); }
+    .account li::before { content:""; position:absolute; left:0; top:20px; width:7px; height:7px; background:var(--accent); transform:rotate(45deg); }
+    .account li:first-child { border-top:0; }
+    .tfsa { --accent: var(--green); }
+    .rrsp { --accent: var(--blue); }
+    .fhsa { --accent: var(--red); }
+    .resp { --accent: var(--gold); }
+    .taxable { --accent: var(--muted); }
+    .warning { margin-top: 20px; padding: 14px 16px; background: var(--red-soft); color: var(--red-ink); font-size:.9rem; font-weight:600; }
+    .waterfall { display: grid; gap: 12px; max-width: 900px; margin-left:auto; }
+    .step { display:grid; grid-template-columns: 62px 190px 1fr; gap: 24px; align-items:center; padding: 22px 26px; background: var(--paper); border-left: 7px solid var(--step); box-shadow: 0 5px 20px rgba(18,33,27,.04); }
+    .step-num { font: 500 1.25rem ui-monospace,"SFMono-Regular",Consolas,monospace; color: var(--step); }
+    .step h3 { font-size:1.06rem; }
+    .step p { margin:0; color:var(--muted); }
+    .step:nth-child(1) { --step: var(--red); margin-right:0; }
+    .step:nth-child(2) { --step: var(--green); margin-right:6%; }
+    .step:nth-child(3) { --step: var(--blue); margin-right:12%; }
+    .step:nth-child(4) { --step: var(--gold); margin-right:18%; }
+    .step:nth-child(5) { --step: var(--muted); margin-right:24%; }
+    .income-split { margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .income-card { padding:24px; background:var(--paper); }
+    .income-card strong { display:block; color:var(--green); font-size:1.1rem; }
+    .income-card:last-child strong { color:var(--blue); }
+    .income-card p { margin:7px 0 0; color:var(--muted); }
+    .lesson-grid { display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+    .lesson { background:var(--paper); padding:34px; }
+    .lesson h3 { font:700 1.55rem "Nunito",sans-serif; }
+    .big-stat { margin:26px 0 10px; font:700 clamp(2.8rem,5vw,4.8rem)/1 "Nunito",sans-serif; letter-spacing:-.05em; color:var(--red); }
+    .lesson p { color:var(--muted); }
+    .compare-line { display:flex; justify-content:space-between; gap:20px; align-items:end; padding:13px 0; border-top:1px solid var(--line); }
+    .compare-line span:last-child { font:500 .95rem ui-monospace,"SFMono-Regular",Consolas,monospace; text-align:right; }
+    .lesson .result { color:var(--ink); font-weight:700; }
+    .fee-meter { margin-top:24px; }
+    .fee-bar { margin:12px 0 20px; height:20px; background:var(--soft); }
+    .fee-bar span { display:block; height:100%; background:var(--green); }
+    .fee-bar.high span { background:var(--red); }
+    .fees-list { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:26px; }
+    .fee-chip { padding:15px; background:var(--soft); }
+    .fee-chip strong { display:block; font-size:.9rem; }
+    .fee-chip span { font:500 .8rem ui-monospace,"SFMono-Regular",Consolas,monospace; color:var(--muted); }
+    .platform {
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:30px;
+      align-items:center;
+      background:var(--ink);
+      color:var(--bg);
+      padding:40px;
+    }
+    .platform h2 { font-size:clamp(2rem,4vw,3.3rem); }
+    .platform p { margin:12px 0 0; max-width:650px; color:color-mix(in srgb, var(--bg) 78%, transparent); }
+    .cta { display:inline-flex; align-items:center; gap:12px; background:var(--bg); color:var(--ink); text-decoration:none; font-weight:800; padding:15px 19px; white-space:nowrap; }
+    .cta::after { content:"↗"; font-size:1.2rem; }
+    .cta:hover, .cta:focus-visible { background:var(--red); color:white; outline:none; }
+    .source-list { margin:0; padding:0; list-style:none; border-top:1px solid var(--line); }
+    .source-list li { border-bottom:1px solid var(--line); }
+    .source-list a { display:grid; grid-template-columns: 90px 1fr auto; gap:24px; align-items:center; padding:18px 8px; text-decoration:none; }
+    .source-list a:hover, .source-list a:focus-visible { background:var(--paper); outline:none; }
+    .source-list span:first-child { font:500 .72rem ui-monospace,"SFMono-Regular",Consolas,monospace; color:var(--muted); text-transform:uppercase; }
+    .source-list strong { font-size:.96rem; }
+    .arrow { color:var(--red); font-size:1.3rem; }
+    footer { padding: 34px 0 calc(34px + env(safe-area-inset-bottom)); background:var(--paper); border-top:1px solid var(--line); }
+    footer .wrap { display:flex; justify-content:space-between; gap:20px; align-items:center; }
+    footer p { margin:0; }
+    .brand { font-weight:800; }
+    .disclaimer { color:var(--muted); font-size:.84rem; text-align:right; }
+    @media (max-width: 850px) {
+      .hero-grid { grid-template-columns:1fr; gap:34px; }
+      .hero-note { max-width:590px; }
+      .section-head { grid-template-columns:1fr; gap:8px; }
+      .section-no { padding:0; }
+      .account, .account.wide { grid-column:span 12; }
+      .account.wide { grid-template-columns:1fr; gap:0; }
+      .lesson-grid { grid-template-columns:1fr; }
+      .step { grid-template-columns:52px 1fr; gap:10px 18px; }
+      .step p { grid-column:2; }
+      .platform { grid-template-columns:1fr; }
+      .platform .cta { justify-self:start; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width:min(calc(100% - 28px), var(--max)); }
+      .jumpbar .wrap { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:4px 8px; overflow:visible; }
+      .jumpbar a { min-width:0; white-space:normal; text-align:center; line-height:1.25; padding:7px 6px; }
+      .mast { padding:48px 0 38px; }
+      h1 { font-size:clamp(2.9rem,15vw,4.5rem); }
+      section { padding:56px 0; }
+      .tax-panel, .account, .lesson { padding:24px 20px; }
+      .tax-top { display:block; }
+      .mono-note { text-align:left; margin-top:12px; }
+      .tax-row { grid-template-columns: 95px 1fr 60px; gap:10px; }
+      .tax-label span { display:none; }
+      .tax-bottom { grid-template-columns:1fr; }
+      .zero-badge { justify-self:start; }
+      .step { margin-right:0 !important; padding:18px 16px; grid-template-columns:42px 1fr; }
+      .income-split, .fees-list { grid-template-columns:1fr; }
+      .platform { padding:30px 22px; }
+      .source-list a { grid-template-columns:1fr auto; gap:4px 16px; }
+      .source-list span:first-child { grid-column:1; }
+      .source-list strong { grid-column:1; }
+      .source-list .arrow { grid-column:2; grid-row:1 / span 2; align-self:center; }
+      footer .wrap { align-items:flex-start; flex-direction:column; }
+      .disclaimer { text-align:left; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
+  
+    /* ---- Maple Money Hacks site chrome ---- */
+    .site-nav{position:sticky;top:0;z-index:50;background:rgba(10,46,29,.96);border-bottom:1px solid rgba(212,169,60,.25)}
+    .site-nav .nav-inner{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+    .site-nav .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#F5F0E1;font-weight:900;font-size:17px;font-family:"Nunito",sans-serif}
+    .site-nav .leaf{background:#D62828;color:#fff;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px}
+    .site-nav .navlinks{display:flex;gap:18px}
+    .site-nav .navlinks a{color:rgba(245,240,225,.72);text-decoration:none;font-weight:700;font-size:14px;font-family:"Nunito",sans-serif}
+    .site-nav .navlinks a:hover{color:#f0cf7a}
+    .site-footer{border-top:1px solid #ddd2b8;padding:28px 0 40px;text-align:center;background:#0A2E1D;color:#F5F0E1}
+    .site-footer .disclaimer{font-size:13px;color:#f0cf7a;font-weight:700;margin:0 0 8px;font-family:"Nunito",sans-serif}
+    .site-footer p{font-size:13px;color:rgba(245,240,225,.72);margin:0;font-family:"Nunito",sans-serif}
+    .site-footer a{color:#f0cf7a;text-decoration:none;font-weight:700}
+    @media(max-width:560px){.site-nav .navlinks{gap:12px}.site-nav .navlinks a{font-size:13px}.site-nav .brand{font-size:15px}}
+
+    .jumpbar{top:60px!important;}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="./index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="./index.html#guides">Guides</a>
+      <a href="./index.html#videos">Videos</a>
+      <a href="./index.html#calculators">Calculators</a>
+      <a href="./index.html#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+  <header class="mast">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="issue">Canada · 2026 field guide</span>
+        <h1>TFSA <span class="vs">vs</span> RRSP <span class="vs">vs</span> FHSA</h1>
+        <p class="lede">The account you choose can matter as much as the investment itself. Here’s how Canada’s main registered accounts work, how the tax math changes, and where each dollar should go first.</p>
+        <p class="asof">Figures current as of September 26, 2026</p>
+      </div>
+      <aside class="hero-note" aria-label="Quick answer">
+        <strong>The short answer</strong>
+        <p>Take the employer match. Use an FHSA for a first home. Then choose TFSA or RRSP based on income and flexibility.</p>
+      </aside>
+    </div>
+  </header>
+
+  <nav class="jumpbar" aria-label="Guide sections">
+    <div class="wrap">
+      <a href="#tax">Tax math</a>
+      <a href="#accounts">Accounts</a>
+      <a href="#order">What to fund first</a>
+      <a href="#lessons">Long-term cost</a>
+      <a href="#fees">Fees</a>
+      <a href="#sources">Official sources</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="tax">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">Start with the tax</span>
+          <div><h2>The same $1,000 can face three different tax bills.</h2><p class="section-intro">In a non-registered account, the type of return matters. This example uses Ontario tax rates at roughly $60,000 of income.</p></div>
+        </div>
+        <div class="tax-panel">
+          <div class="tax-top">
+            <div><h3>Tax due on $1,000 of investment income</h3><p>Illustrative Ontario example</p></div>
+            <div class="mono-note">Higher bar = more tax<br>rounded figures</div>
+          </div>
+          <div class="tax-bars" aria-label="Tax comparison bar chart">
+            <div class="tax-row">
+              <div class="tax-label"><strong>Interest</strong><span>fully taxable</span></div>
+              <div class="track"><div class="fill" style="--w:100%"></div></div>
+              <div class="tax-amount">$297</div>
+            </div>
+            <div class="tax-row">
+              <div class="tax-label"><strong>Dividends</strong><span>eligible Canadian</span></div>
+              <div class="track"><div class="fill" style="--w:21.5%"></div></div>
+              <div class="tax-amount">$64</div>
+            </div>
+            <div class="tax-row">
+              <div class="tax-label"><strong>Capital gains</strong><span>50% included</span></div>
+              <div class="track"><div class="fill" style="--w:49.8%"></div></div>
+              <div class="tax-amount">$148</div>
+            </div>
+          </div>
+          <div class="tax-bottom">
+            <p>Inside a TFSA—or a qualifying FHSA withdrawal—the tax on growth and withdrawal is <strong>$0</strong>. RRSP tax is deferred until withdrawal.</p>
+            <div class="zero-badge">registered shelter → $0 today</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="accounts">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">Know the containers</span>
+          <div><h2>Five accounts. Five different jobs.</h2><p class="section-intro">These are account types, not investments. You still choose what to hold inside—cash, GICs, ETFs, stocks, bonds or funds.</p></div>
+        </div>
+        <div class="account-grid">
+          <article class="account tfsa">
+            <span class="account-tag">Flexible wealth</span>
+            <h3>TFSA</h3>
+            <p class="limit">$7,000 <span>2026 annual limit</span><br>$109,000 <span>cumulative room since 2009 if fully eligible</span></p>
+            <ul>
+              <li>After-tax money goes in; growth and withdrawals are tax-free.</li>
+              <li>Withdraw any time, for any reason.</li>
+              <li>There is no forced withdrawal and no lifetime contribution cap beyond accumulated room.</li>
+            </ul>
+            <div class="warning">Withdrawal room returns January 1 of the next calendar year—not immediately. An early recontribution can trigger a 1% monthly overcontribution tax.</div>
+          </article>
+
+          <article class="account rrsp">
+            <span class="account-tag">Retirement + tax deduction</span>
+            <h3>RRSP</h3>
+            <p class="limit">18% <span>of 2025 earned income</span><br>$33,810 <span>2026 maximum</span></p>
+            <ul>
+              <li>Contributions are deductible; withdrawals are fully taxable income.</li>
+              <li>$10,000 contributed at a 29.65% marginal rate creates about a $2,965 tax reduction.</li>
+              <li>Employer match is an immediate return. Take all of it before moving down the waterfall.</li>
+              <li>The Home Buyers’ Plan can allow up to $60,000 for a first home, repaid over 15 years.</li>
+              <li>Convert to a RRIF by December 31 of the year you turn 71.</li>
+            </ul>
+          </article>
+
+          <article class="account fhsa">
+            <span class="account-tag">First-home advantage</span>
+            <h3>FHSA</h3>
+            <p class="limit">$8,000 <span>annual limit</span><br>$40,000 <span>lifetime limit</span></p>
+            <ul>
+              <li>Tax-deductible contribution, tax-free growth and tax-free qualifying first-home withdrawal.</li>
+              <li>An $8,000 contribution at 29.65% can reduce tax by about $2,372.</li>
+              <li>Room starts only after you open the account—even if the balance is $0.</li>
+              <li>If you never buy, transfer the balance to an RRSP tax-free without using RRSP room.</li>
+              <li>First-time buyer generally means no home ownership in the current year or four prior calendar years.</li>
+            </ul>
+          </article>
+
+          <article class="account resp">
+            <span class="account-tag">Education + government grant</span>
+            <h3>RESP</h3>
+            <p class="limit">$50,000 <span>lifetime per child</span><br>$500 <span>annual basic CESG on $2,500 contributed</span></p>
+            <ul>
+              <li>Contributions are not tax-deductible.</li>
+              <li>The basic CESG adds 20% on the first $2,500 contributed each year.</li>
+              <li>Basic CESG has a $7,200 lifetime maximum per child.</li>
+              <li>Grant and growth are taxed to the student when withdrawn for education.</li>
+            </ul>
+          </article>
+
+          <article class="account taxable wide">
+            <div>
+              <span class="account-tag">Unlimited, but unsheltered</span>
+              <h3>Non-registered account</h3>
+              <p class="limit">No contribution limit</p>
+            </div>
+            <ul>
+              <li>Interest and dividends can be taxable each year; realized capital gains use a 50% inclusion rate in this example.</li>
+              <li>Best used after valuable registered room has been filled.</li>
+              <li>If you do use one, tax-efficient holdings and low turnover can help reduce yearly tax drag.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="order">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">Decision framework</span>
+          <div><h2>Fund the highest-value opportunity first.</h2><p class="section-intro">This general-purpose waterfall balances free employer money, homeownership benefits, tax rates and flexibility.</p></div>
+        </div>
+        <div class="waterfall">
+          <article class="step"><span class="step-num">01</span><h3>Employer match</h3><p>Contribute enough to capture the full RRSP or pension match. A 50% match is an instant 50% return before investing.</p></article>
+          <article class="step"><span class="step-num">02</span><h3>FHSA</h3><p>Buying a first home within the account’s time window? Aim for the $8,000 annual room.</p></article>
+          <article class="step"><span class="step-num">03</span><h3>TFSA or RRSP</h3><p>Choose based on your current tax bracket, expected retirement bracket and need for flexible withdrawals.</p></article>
+          <article class="step"><span class="step-num">04</span><h3>RESP</h3><p>With children, target $2,500 per year per child to capture the basic $500 CESG—without sacrificing your own retirement.</p></article>
+          <article class="step"><span class="step-num">05</span><h3>Non-registered</h3><p>Use after registered room is full. Be deliberate about tax efficiency.</p></article>
+        </div>
+        <div class="income-split">
+          <div class="income-card"><strong>Lower income or starting out</strong><p>TFSA often comes first: the current deduction may be smaller, while withdrawals stay flexible and don’t count as taxable income.</p></div>
+          <div class="income-card"><strong>Higher income</strong><p>RRSP often becomes more valuable: deduct contributions at a higher rate, then ideally withdraw at a lower rate in retirement. Investing the refund in your TFSA strengthens the strategy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="lessons">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">Compounding</span>
+          <div><h2>Small tax and fee choices become large dollar gaps.</h2><p class="section-intro">These two examples use the same starting balance so you can see what the account wrapper—and the product fee—can change over time.</p></div>
+        </div>
+        <div class="lesson-grid">
+          <article class="lesson">
+            <h3>The account-location lesson</h3>
+            <div class="big-stat">$2,993</div>
+            <p>more kept by using the registered account in this simplified 20-year illustration.</p>
+            <div class="compare-line"><span>$10,000 at 7% for 20 years</span><span>$38,697</span></div>
+            <div class="compare-line"><span>TFSA / RRSP value kept</span><span>$27,223</span></div>
+            <div class="compare-line"><span>Non-registered value kept</span><span>$24,230</span></div>
+            <p class="result">That’s about 12% lost from using the wrong account in this example.</p>
+          </article>
+          <article class="lesson" id="fees">
+            <h3>The fee lesson</h3>
+            <div class="big-stat">$28,771</div>
+            <p>the long-term gap between a 2% MER and a 0.2% ETF in this 30-year illustration.</p>
+            <div class="compare-line"><span>2% MER ending value</span><span>$43,219</span></div>
+            <div class="fee-meter"><div class="fee-bar high"><span style="width:60%"></span></div></div>
+            <div class="compare-line"><span>0.2% ETF ending value</span><span>$71,990</span></div>
+            <div class="fee-meter"><div class="fee-bar"><span style="width:100%"></span></div></div>
+            <div class="fees-list">
+              <div class="fee-chip"><strong>Mutual funds</strong><span>1.5%–2.5%</span></div>
+              <div class="fee-chip"><strong>Robo-advisors</strong><span>0.4%–0.7%</span></div>
+              <div class="fee-chip"><strong>DIY ETFs</strong><span>0.05%–0.20%</span></div>
+            </div>
+            <p class="result">Moving brokerages? Ask the new platform to reimburse the roughly $150 transfer fee.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="platform">
+          <div><h2>Considering Wealthsimple?</h2><p>Review the account rules first, compare the fees with other institutions, then use the referral link only if the platform fits your plan. Wealthsimple’s official explainers are linked below.</p></div>
+          <a class="cta" href="https://wealthsimple.com/invite/LK4W87" target="_blank" rel="noopener noreferrer">Open referral link</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">Verify before acting</span>
+          <div><h2>Official account resources.</h2><p class="section-intro">Contribution room and eligibility are personal. Check your CRA account and the current rules before contributing or withdrawing.</p></div>
+        </div>
+        <ul class="source-list">
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/tax-free-savings-account.html" target="_blank" rel="noopener noreferrer"><span>CRA</span><strong>Tax-Free Savings Account</strong><span class="arrow">↗</span></a></li>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/registered-retirement-savings-plans-registered-retirement-income-funds-rrsps-rrifs/registered-retirement-savings-plans-registered-retirement-income-funds-rrsps-rrifs.html" target="_blank" rel="noopener noreferrer"><span>CRA</span><strong>RRSPs and RRIFs</strong><span class="arrow">↗</span></a></li>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/first-home-savings-account.html" target="_blank" rel="noopener noreferrer"><span>CRA</span><strong>First Home Savings Account</strong><span class="arrow">↗</span></a></li>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps.html" target="_blank" rel="noopener noreferrer"><span>CRA</span><strong>Registered Education Savings Plans</strong><span class="arrow">↗</span></a></li>
+          <li><a href="https://wealthsimple.com/en-ca/learn/rrsp-faqs" target="_blank" rel="noopener noreferrer"><span>Wealthsimple</span><strong>RRSP guide</strong><span class="arrow">↗</span></a></li>
+          <li><a href="https://wealthsimple.com/en-ca/learn/resp-faqs" target="_blank" rel="noopener noreferrer"><span>Wealthsimple</span><strong>RESP guide</strong><span class="arrow">↗</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>&copy; 2026 Maple Money Hacks &middot; Made with &#127809; in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+</body>
+</html>

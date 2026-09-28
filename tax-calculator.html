@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Income Tax Calculator (Ontario) | Maple Money Hacks</title>
+<meta name="description" content="Free 2026 Canadian income tax calculator for Ontario. See your federal + provincial tax, CPP, EI, take-home pay and marginal rate — calculated live.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --green: #0A2E1D;
+    --green-deep: #071f14;
+    --green-card: #123a26;
+    --cream: #F5F0E1;
+    --gold: #D4A93C;
+    --gold-soft: #f0cf7a;
+    --red: #D62828;
+    --muted: rgba(245, 240, 225, 0.72);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--green);
+    color: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 46, 29, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(212, 169, 60, 0.25);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cream); font-weight: 900; font-size: 17px; }
+  .brand .leaf { background: var(--red); color: #fff; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; }
+  .navlinks { display: flex; gap: 16px; }
+  .navlinks a { color: var(--muted); text-decoration: none; font-weight: 700; font-size: 14px; }
+  .navlinks a:hover, .navlinks a.active { color: var(--gold-soft); }
+
+  .page-head { text-align: center; padding: 40px 0 8px; }
+  .page-head h1 { font-size: clamp(28px, 7vw, 42px); font-weight: 900; }
+  .page-head h1 span { color: var(--gold-soft); }
+  .page-head p { color: var(--muted); font-size: 15px; font-weight: 600; max-width: 520px; margin: 8px auto 0; }
+  .year-badge {
+    display: inline-block; margin-bottom: 12px; padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,169,60,0.15); border: 1px solid rgba(212,169,60,0.5);
+    color: var(--gold-soft); font-weight: 800; font-size: 13px; letter-spacing: 0.5px;
+  }
+
+  .calc-card {
+    background: var(--green-card);
+    border: 1px solid rgba(212, 169, 60, 0.28);
+    border-radius: 20px; padding: 24px; margin-top: 24px;
+  }
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+  .field .hint { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 6px; }
+  .income-row { display: flex; gap: 12px; align-items: center; }
+  .income-row .dollar { font-weight: 900; font-size: 22px; color: var(--gold-soft); }
+  input[type="number"] {
+    flex: 1; font-family: inherit; font-size: 22px; font-weight: 800; color: var(--cream);
+    background: var(--green-deep); border: 2px solid rgba(212,169,60,0.4); border-radius: 12px;
+    padding: 10px 14px; width: 100%;
+  }
+  input[type="number"]:focus { outline: none; border-color: var(--gold); }
+  input[type="range"] { width: 100%; margin-top: 14px; accent-color: var(--gold); height: 32px; }
+  select {
+    font-family: inherit; font-size: 16px; font-weight: 800; color: var(--cream);
+    background: var(--green-deep); border: 2px solid rgba(212,169,60,0.4); border-radius: 12px;
+    padding: 10px 14px; width: 100%;
+  }
+
+  .results { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-top: 8px; }
+  @media (max-width: 480px) { .results { grid-template-columns: 1fr; } }
+  .stat {
+    background: var(--green-deep); border-radius: 14px; padding: 14px 16px;
+    border: 1px solid rgba(212,169,60,0.18);
+  }
+  .stat .k { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
+  .stat .v { font-size: 24px; font-weight: 900; margin-top: 4px; }
+  .stat.hero-stat { grid-column: 1 / -1; text-align: center; padding: 20px; border: 2px solid var(--gold); }
+  .stat.hero-stat .v { font-size: 38px; color: var(--gold-soft); }
+  .stat.section-label { grid-column: 1 / -1; background: transparent; border: none; padding: 6px 16px 0; }
+  .v.gold { color: var(--gold-soft); }
+  .v.red { color: #ff8a8a; }
+
+  .bar-wrap { margin-top: 20px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+  .bar { display: flex; height: 26px; border-radius: 999px; overflow: hidden; background: var(--green-deep); }
+  .bar .seg-tax { background: var(--red); transition: width .2s ease; }
+  .bar .seg-keep { background: var(--gold); transition: width .2s ease; }
+  .bar-legend { display: flex; gap: 18px; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; }
+
+  .mascot-react {
+    display: flex; gap: 16px; align-items: center; margin-top: 20px;
+    background: var(--green-deep); border-radius: 16px; padding: 16px;
+    border: 1px solid rgba(212,169,60,0.25);
+  }
+  .mascot-react img { width: 84px; height: 84px; object-fit: cover; border-radius: 16px; border: 2px solid rgba(212,169,60,0.5); flex-shrink: 0; }
+  .mascot-react p { font-size: 15px; font-weight: 700; }
+
+  details.brackets { margin-top: 24px; background: var(--green-card); border: 1px solid rgba(212,169,60,0.28); border-radius: 16px; padding: 16px 20px; }
+  details.brackets summary { font-weight: 900; font-size: 16px; cursor: pointer; color: var(--gold-soft); }
+  details.brackets table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+  details.brackets th, details.brackets td { text-align: left; padding: 8px 6px; border-bottom: 1px solid rgba(212,169,60,0.15); }
+  details.brackets th { color: var(--gold-soft); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  details.brackets h4 { margin: 16px 0 4px; font-size: 15px; }
+
+  .fine-print { margin-top: 24px; font-size: 13px; color: var(--muted); }
+  .fine-print li { margin-bottom: 6px; margin-left: 18px; }
+
+  footer { margin-top: 56px; border-top: 1px solid rgba(212,169,60,0.25); padding: 28px 0 40px; text-align: center; }
+  footer .disclaimer { font-size: 13px; color: var(--gold-soft); font-weight: 700; margin-bottom: 8px; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--gold-soft); text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <div class="navlinks">
+      <a href="index.html#guides">Guides</a>
+      <a href="index.html#videos">Videos</a>
+      <a href="index.html#calculators" class="active">Calculators</a>
+      <a href="index.html#referral">Perks</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="page-head">
+    <span class="year-badge">2026 TAX YEAR · ONTARIO</span>
+    <h1>How much tax will <span>you</span> pay?</h1>
+    <p>Drag the slider, watch your federal + Ontario tax and payroll deductions update live. No signup, no spreadsheet.</p>
+  </header>
+
+  <div class="calc-card">
+    <div class="field">
+      <label for="province">Province</label>
+      <select id="province" disabled>
+        <option value="ON" selected>Ontario (more provinces coming soon)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="income">Annual employment income</label>
+      <div class="income-row">
+        <span class="dollar">$</span>
+        <input type="number" id="income" min="0" max="1000000" step="500" value="60000" inputmode="numeric" aria-label="Annual employment income">
+      </div>
+      <input type="range" id="incomeSlider" min="0" max="300000" step="1000" value="60000" aria-label="Income slider">
+      <p class="hint">Tip: try $60,000 — the income from our tax breakdown video.</p>
+    </div>
+
+    <div class="results">
+      <div class="stat hero-stat">
+        <div class="k">Take-home pay</div>
+        <div class="v" id="rKeep">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Federal tax</div>
+        <div class="v red" id="rFed">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Ontario tax <span style="text-transform:none;letter-spacing:0">(incl. health premium)</span></div>
+        <div class="v red" id="rProv">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Total income tax</div>
+        <div class="v red" id="rTotal">$0</div>
+      </div>
+      <div class="stat section-label">
+        <div class="k" style="color:var(--gold-soft)">Payroll deductions (employee)</div>
+      </div>
+      <div class="stat">
+        <div class="k">CPP</div>
+        <div class="v red" id="rCPP">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">CPP2 (enhanced)</div>
+        <div class="v red" id="rCPP2">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">EI premiums</div>
+        <div class="v red" id="rEI">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Total deductions</div>
+        <div class="v red" id="rTotalDed">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Monthly take-home</div>
+        <div class="v gold" id="rMonthly">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Average income-tax rate</div>
+        <div class="v" id="rAvg">0%</div>
+      </div>
+      <div class="stat">
+        <div class="k">Marginal income-tax rate</div>
+        <div class="v" id="rMarg">0%</div>
+      </div>
+      <div class="stat">
+        <div class="k">Effective deduction rate</div>
+        <div class="v" id="rEff">0%</div>
+      </div>
+    </div>
+
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Where your paycheque goes</span></div>
+      <div class="bar" aria-hidden="true">
+        <div class="seg-tax" id="barTax" style="width:0%"></div>
+        <div class="seg-keep" id="barKeep" style="width:100%"></div>
+      </div>
+      <div class="bar-legend">
+        <span><span class="dot" style="background:var(--red)"></span><span id="legTax">Deductions 0%</span></span>
+        <span><span class="dot" style="background:var(--gold)"></span><span id="legKeep">You keep 100%</span></span>
+      </div>
+    </div>
+
+    <div class="mascot-react">
+      <img src="mascot-hero.jpg" alt="Maple and Loonie, the Maple Money Hacks bears">
+      <p id="mascotLine">Move the slider and the bears will react…</p>
+    </div>
+  </div>
+
+  <details class="brackets">
+    <summary>How the math works (2026 brackets)</summary>
+    <h4>Federal</h4>
+    <table>
+      <tr><th>Taxable income</th><th>Rate</th></tr>
+      <tr><td>First $58,523</td><td>14%</td></tr>
+      <tr><td>$58,523 – $117,045</td><td>20.5%</td></tr>
+      <tr><td>$117,045 – $181,440</td><td>26%</td></tr>
+      <tr><td>$181,440 – $258,482</td><td>29%</td></tr>
+      <tr><td>Over $258,482</td><td>33%</td></tr>
+    </table>
+    <p class="fine-print" style="margin-top:8px">Federal Basic Personal Amount: $16,452 (phases down for high incomes). Lowest federal rate is 14% for 2026.</p>
+    <h4>Ontario</h4>
+    <table>
+      <tr><th>Taxable income</th><th>Rate</th></tr>
+      <tr><td>First $53,891</td><td>5.05%</td></tr>
+      <tr><td>$53,891 – $107,785</td><td>9.15%</td></tr>
+      <tr><td>$107,785 – $150,000</td><td>11.16%</td></tr>
+      <tr><td>$150,000 – $220,000</td><td>12.16%</td></tr>
+      <tr><td>Over $220,000</td><td>13.16%</td></tr>
+    </table>
+    <p class="fine-print" style="margin-top:8px">Ontario Basic Personal Amount: $12,989. Ontario surtax applies on provincial tax over $5,818 (20%) and over $7,446 (extra 36%). Ontario Health Premium ($0–$900) is included in the Ontario figure.</p>
+    <h4>Payroll deductions (employee, 2026)</h4>
+    <table>
+      <tr><th>Deduction</th><th>Rate</th><th>Applies to</th><th>Max</th></tr>
+      <tr><td>CPP</td><td>5.95%</td><td>Earnings $3,500 – $74,600</td><td>$4,230.45</td></tr>
+      <tr><td>CPP2 (enhanced)</td><td>4.00%</td><td>Earnings $74,600 – $85,000</td><td>$416.00</td></tr>
+      <tr><td>EI</td><td>1.63%</td><td>First $68,900 of earnings</td><td>$1,123.07</td></tr>
+    </table>
+    <p class="fine-print" style="margin-top:8px">Formulas: CPP = 5.95% × min(max(income − $3,500, 0), $71,100) · CPP2 = 4% × min(max(income − $74,600, 0), $10,400) · EI = 1.63% × min(income, $68,900). Employee portions only — employers pay a matching share on top.</p>
+  </details>
+
+  <ul class="fine-print">
+    <li><strong>Estimate only.</strong> Assumes an Ontario employee with all income as employment income — no RRSP contributions, deductions, or other credits. Real returns vary.</li>
+    <li>Includes employee <strong>CPP, CPP2 and EI</strong> at 2026 rates and caps, estimated on an annual basis — actual per-paycheque deductions can differ slightly.</li>
+    <li>Employer CPP/EI portions are not shown (your employer pays them on top). Quebec (QPP/QPIP) and self-employed rates differ.</li>
+    <li>Bracket and payroll figures reflect the 2026 tax year per CRA indexation, the Ontario Ministry of Finance, and the CRA payroll deductions tables.</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>© 2026 Maple Money Hacks · Made with 🍁 in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+
+<script>
+/* ---- 2026 Canadian tax engine (Ontario v1 — structured for more provinces) ---- */
+var TAX_YEAR = 2026;
+
+var FEDERAL = {
+  brackets: [ // [upper bound, rate]
+    [58523, 0.14],
+    [117045, 0.205],
+    [181440, 0.26],
+    [258482, 0.29],
+    [Infinity, 0.33]
+  ],
+  bpaMax: 16452, bpaMin: 14829,
+  bpaPhaseStart: 181440, bpaPhaseEnd: 258482,
+  lowestRate: 0.14
+};
+
+var PROVINCES = {
+  ON: {
+    name: "Ontario",
+    brackets: [
+      [53891, 0.0505],
+      [107785, 0.0915],
+      [150000, 0.1116],
+      [220000, 0.1216],
+      [Infinity, 0.1316]
+    ],
+    bpa: 12989, bpaRate: 0.0505,
+    // Ontario surtax (per CRA Form ON428): 20% of basic provincial tax over
+    // $5,818, PLUS an extra 36% of basic provincial tax over $7,446.
+    surtax: { t1: 5818, r1: 0.20, t2: 7446, r2: 0.36 }
+  }
+};
+
+/* ---- 2026 payroll deductions (employee, Ontario — not Quebec, not self-employed) ---- */
+var PAYROLL = {
+  cpp:  { ympe: 74600, exemption: 3500, rate: 0.0595, max: 4230.45 },
+  cpp2: { yampe: 85000, rate: 0.04, max: 416.00 },
+  ei:   { mie: 68900, rate: 0.0163, max: 1123.07 }
+};
+
+function calcPayroll(income) {
+  var cppBase = Math.min(Math.max(income - PAYROLL.cpp.exemption, 0),
+                         PAYROLL.cpp.ympe - PAYROLL.cpp.exemption);
+  var cpp = cppBase * PAYROLL.cpp.rate;
+  var cpp2Base = Math.min(Math.max(income - PAYROLL.cpp.ympe, 0),
+                          PAYROLL.cpp2.yampe - PAYROLL.cpp.ympe);
+  var cpp2 = cpp2Base * PAYROLL.cpp2.rate;
+  var ei = Math.min(income, PAYROLL.ei.mie) * PAYROLL.ei.rate;
+  return { cpp: cpp, cpp2: cpp2, ei: ei };
+}
+
+function bracketTax(income, brackets) {
+  var tax = 0, prev = 0;
+  for (var i = 0; i < brackets.length; i++) {
+    var cap = brackets[i][0], rate = brackets[i][1];
+    var inBracket = Math.min(income, cap) - prev;
+    if (inBracket > 0) tax += inBracket * rate;
+    prev = cap;
+    if (income <= cap) break;
+  }
+  return tax;
+}
+
+function federalBPA(income) {
+  if (income <= FEDERAL.bpaPhaseStart) return FEDERAL.bpaMax;
+  if (income >= FEDERAL.bpaPhaseEnd) return FEDERAL.bpaMin;
+  var frac = (income - FEDERAL.bpaPhaseStart) / (FEDERAL.bpaPhaseEnd - FEDERAL.bpaPhaseStart);
+  return FEDERAL.bpaMax - frac * (FEDERAL.bpaMax - FEDERAL.bpaMin);
+}
+
+function calcFederal(income) {
+  var gross = bracketTax(income, FEDERAL.brackets);
+  var credit = federalBPA(income) * FEDERAL.lowestRate;
+  return Math.max(0, gross - credit);
+}
+
+function calcProvincial(code, income) {
+  var P = PROVINCES[code];
+  var basic = bracketTax(income, P.brackets);
+  var credit = P.bpa * P.bpaRate;
+  var t = Math.max(0, basic - credit);
+  var surtax = 0;
+  if (t > P.surtax.t1) surtax += (t - P.surtax.t1) * P.surtax.r1;
+  if (t > P.surtax.t2) surtax += (t - P.surtax.t2) * P.surtax.r2;
+  var ohp = ontarioHealthPremium(income);
+  return { base: t, surtax: surtax, ohp: ohp, total: t + surtax + ohp };
+}
+
+// Ontario Health Premium chart (CRA Form ON428), includes the ramp segments
+function ontarioHealthPremium(income) {
+  if (income <= 20000) return 0;
+  if (income <= 25000) return (income - 20000) * 0.06;
+  if (income <= 36000) return 300;
+  if (income <= 38500) return 300 + (income - 36000) * 0.06;
+  if (income <= 48000) return 450;
+  if (income <= 48600) return 450 + (income - 48000) * 0.25;
+  if (income <= 72000) return 600;
+  if (income <= 72600) return 600 + (income - 72000) * 0.25;
+  if (income <= 200000) return 750;
+  if (income <= 200600) return 750 + (income - 200000) * 0.25;
+  return 900;
+}
+
+function calcAll(income, provCode) {
+  var fed = calcFederal(income);
+  var prov = calcProvincial(provCode, income);
+  var total = fed + prov.total;
+  var avg = income > 0 ? total / income : 0;
+  // marginal rate via small bump (captures surtax kinks automatically)
+  var bump = 100;
+  var total2 = calcFederal(income + bump) + calcProvincial(provCode, income + bump).total;
+  var marg = income >= 0 ? (total2 - total) / bump : 0;
+  var pay = calcPayroll(income);
+  var totalDed = total + pay.cpp + pay.cpp2 + pay.ei;
+  var takeHome = income - totalDed;
+  return {
+    income: income, fed: fed, prov: prov.total, provBase: prov.base,
+    surtax: prov.surtax, ohp: prov.ohp,
+    total: total, keep: income - total, monthly: (income - total) / 12,
+    avg: avg, marg: marg,
+    cpp: pay.cpp, cpp2: pay.cpp2, ei: pay.ei,
+    totalDed: totalDed, takeHome: takeHome,
+    monthlyTakeHome: takeHome / 12,
+    effRate: income > 0 ? totalDed / income : 0
+  };
+}
+
+function fmt(n) {
+  return "$" + Math.round(n).toLocaleString("en-CA");
+}
+function pct(x, d) {
+  return (x * 100).toFixed(d === undefined ? 1 : d) + "%";
+}
+
+function mascotLine(avg) {
+  if (avg < 0.15) return "Maple & Loonie are doing a happy dance — you're keeping almost every dollar you earn! Keep it up.";
+  if (avg <= 0.25) return "Maple & Loonie nod approvingly — a fair middle-of-the-pack tax bite. Every RRSP dollar still cuts this down.";
+  return "Maple & Loonie pat your shoulder — the tax bite gets chunky up here. This is exactly when RRSP season matters most.";
+}
+
+/* expose for testing in node */
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { calcAll: calcAll, calcPayroll: calcPayroll, FEDERAL: FEDERAL, PROVINCES: PROVINCES, PAYROLL: PAYROLL };
+}
+
+if (typeof document !== "undefined") {
+  var incomeInput = document.getElementById("income");
+  var slider = document.getElementById("incomeSlider");
+
+  function render() {
+    var income = Math.max(0, Math.min(1000000, parseFloat(incomeInput.value) || 0));
+    var r = calcAll(income, "ON");
+    document.getElementById("rKeep").textContent = fmt(r.takeHome);
+    document.getElementById("rFed").textContent = fmt(r.fed);
+    document.getElementById("rProv").textContent = fmt(r.prov);
+    document.getElementById("rTotal").textContent = fmt(r.total);
+    document.getElementById("rCPP").textContent = fmt(r.cpp);
+    document.getElementById("rCPP2").textContent = fmt(r.cpp2);
+    document.getElementById("rEI").textContent = fmt(r.ei);
+    document.getElementById("rTotalDed").textContent = fmt(r.totalDed);
+    document.getElementById("rMonthly").textContent = fmt(r.monthlyTakeHome);
+    document.getElementById("rAvg").textContent = pct(r.avg);
+    document.getElementById("rMarg").textContent = pct(r.marg);
+    document.getElementById("rEff").textContent = pct(r.effRate);
+    var dedPct = income > 0 ? r.effRate * 100 : 0;
+    document.getElementById("barTax").style.width = dedPct + "%";
+    document.getElementById("barKeep").style.width = (100 - dedPct) + "%";
+    document.getElementById("legTax").textContent = "Deductions " + pct(r.effRate);
+    document.getElementById("legKeep").textContent = "You keep " + pct(1 - r.effRate);
+    document.getElementById("mascotLine").textContent = income > 0
+      ? mascotLine(r.avg)
+      : "Move the slider and the bears will react…";
+  }
+
+  incomeInput.addEventListener("input", function () {
+    var v = Math.max(0, Math.min(300000, parseFloat(incomeInput.value) || 0));
+    slider.value = Math.min(300000, v);
+    render();
+  });
+  slider.addEventListener("input", function () {
+    incomeInput.value = slider.value;
+    render();
+  });
+  render();
+}
+</script>
+
+</body>
+</html>
