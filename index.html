@@ -63,6 +63,13 @@
   }
   .btn:hover { transform: translateY(-2px); }
   .btn-gold { background: var(--gold); color: var(--green-deep); box-shadow: 0 8px 24px rgba(212,169,60,0.35); }
+  .btn-red { background: var(--red); color: #fff; box-shadow: 0 8px 24px rgba(214,40,40,0.35); }
+  .navlinks a.nav-tracker { color: var(--gold-soft); }
+  .feature { background: linear-gradient(135deg, #16452c, #0e3520); border: 2px solid var(--gold); border-radius: 24px; padding: 30px 24px; text-align: center; }
+  .feature .big { font-size: 15px; color: var(--gold-soft); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .feature h2 { font-size: clamp(24px, 6vw, 32px); font-weight: 900; margin-bottom: 8px; }
+  .feature h2 span { color: var(--gold-soft); }
+  .feature p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto 20px; }
   .btn-outline { border: 2px solid rgba(212,169,60,0.6); color: var(--gold-soft); }
   .btn-outline:hover { background: rgba(212,169,60,0.12); }
   .handle-line { margin-top: 18px; font-size: 14px; color: var(--muted); }
@@ -111,6 +118,7 @@
       <a href="#videos">Videos</a>
       <a href="#calculators">Calculators</a>
       <a href="#referral">Perks</a>
+      <a class="nav-tracker" href="pay-yourself-first-tracker.html">📊 Free Tracker</a>
     </div>
   </div>
 </nav>
@@ -121,6 +129,7 @@
     <h1>Maple <span class="maple">Money</span> Hacks</h1>
     <p class="tagline">Playing with numbers · Saving money in Canada · Simple investing tips — explained for every income.</p>
     <div class="btnrow">
+      <a class="btn btn-red" href="pay-yourself-first-tracker.html">📊 Get the Free Tracker</a>
       <a class="btn btn-gold" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">📸 Instagram</a>
       <a class="btn btn-outline" href="https://www.youtube.com/@Maple.money.hacks-withMk" target="_blank" rel="noopener">▶️ YouTube</a>
       <a class="btn btn-outline" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">✨ Latest Reel</a>
@@ -130,6 +139,18 @@
 </header>
 
 <main class="wrap">
+
+  <section id="tracker" style="padding-top:36px;">
+    <div class="feature">
+      <div class="big">📊 New · Free Download</div>
+      <h2>Pay Yourself First — <span>TFSA · FHSA · RRSP Tracker</span></h2>
+      <p>Automate your payday. Never over-contribute again. This free spreadsheet projects which pay your FHSA room runs out and flags ⚠ OVER ROOM before CRA's 1%-per-month penalty — built for 1 or 2 people, with cash buckets for emergencies, car, family and vacations. Works in Excel (Mac &amp; Windows) and Google Sheets.</p>
+      <div class="btnrow">
+        <a class="btn btn-red" href="Pay_Yourself_First_-_Canadian_TFSA_FHSA_RRSP_Tracker.xlsx" download>⬇️ Download the free tracker</a>
+        <a class="btn btn-outline" href="pay-yourself-first-tracker.html">See how it works →</a>
+      </div>
+    </div>
+  </section>
 
   <section id="guides">
     <div class="sec-head">
@@ -205,20 +226,24 @@
       <h2>Money <span>Tools</span></h2>
       <p>Play with the numbers yourself — free interactive calculators.</p>
     </div>
-    <div class="grid cols-2" style="margin-top:16px">
-      <a class="card ref-card" href="pay-yourself-first.html">
-        <div class="big">🐻 Pay Yourself First Planner</div>
-        <h3>Where should your 20% go each month?</h3>
-        <p>Answer 4 quick questions and get your personalized savings waterfall — emergency fund, employer match, FHSA, TFSA, RESP, RRSP — plus an estimated tax refund.</p>
-        <span class="cta">Build my plan →</span>
-      </a>
-      <a class="card ref-card" href="tax-calculator.html">
-        <div class="big">🍁 2026 Tax Calculator</div>
-        <h3>How much tax will you pay?</h3>
-        <p>Calculate your 2026 federal &amp; Ontario tax, CPP, EI deductions, take-home pay, and marginal tax rate live with interactive sliders.</p>
-        <span class="cta">Calculate my tax →</span>
-      </a>
-    </div>
+    <a class="card ref-card" href="tax-calculator.html">
+      <div class="big">🧮 New · 2026 Tax Calculator</div>
+      <h3>How much tax will you pay in 2026?</h3>
+      <p>Enter your Ontario income and see your federal + provincial tax, take-home pay and marginal rate — calculated live, with Maple &amp; Loonie reacting.</p>
+      <span class="cta">Try the calculator →</span>
+    </a>
+    <a class="card ref-card" href="pay-yourself-first.html" style="margin-top:16px">
+      <div class="big">🐻 New · Pay Yourself First Planner</div>
+      <h3>Where should your 20% go each month?</h3>
+      <p>Answer 5 quick questions and get your personalized savings waterfall — emergency fund, employer match, FHSA, TFSA, RRSP, RESP — plus an estimated tax refund.</p>
+      <span class="cta">Build my plan →</span>
+    </a>
+    <a class="card ref-card" href="pay-yourself-first-tracker.html" style="margin-top:16px">
+      <div class="big">📊 New · Free Download · TFSA · FHSA · RRSP Tracker</div>
+      <h3>Pay Yourself First — the spreadsheet tracker</h3>
+      <p>Automate your payday. Never over-contribute again. It projects which pay your FHSA room runs out and flags OVER ROOM before CRA's 1%-per-month penalty — free, for 1 or 2 people, in Excel (Mac &amp; Windows) or Google Sheets.</p>
+      <span class="cta">Get the free tracker →</span>
+    </a>
   </section>
 
   <section id="referral">
