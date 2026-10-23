@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>Monthly Expense Tracker (Free) — Maple Money Hacks</title>
+  <meta name="description" content="A free monthly expense tracker spreadsheet for Canadian households. Capture every expense daily in any expense-manager app, total the month in the sheet, then sit down with your partner for a 20-minute money date. Works in Excel or Google Sheets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#F5F0E1; --paper:#FFFDF6; --ink:#0A2E1D; --muted:#5c6d60; --line:#ddd2b8;
+      --soft:#ece3c9; --red:#D62828; --red-ink:#a11f22; --red-soft:#f7ddd2;
+      --green:#0A2E1D; --green-soft:#e3e9d4; --gold:#D4A93C; --gold-dark:#9a6b12; --gold-soft:#f0e2c4;
+      --shadow:0 18px 44px rgba(10,46,29,.08); --radius-lg:28px; --radius-md:16px; --max:1140px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Nunito", sans-serif; font-size: 16px; line-height: 1.6; }
+    a { color: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    .topbar { background: var(--green); color: #F5F0E1; }
+    .topbar .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 900; font-size: 17px; color: #F5F0E1; }
+    .brand .leaf { background: var(--red); color: #fff; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; }
+    .topbar nav a { color: rgba(245,240,225,.75); text-decoration: none; font-weight: 700; font-size: 14px; margin-left: 18px; }
+    .topbar nav a:hover { color: var(--gold); }
+
+    .mast { position: relative; overflow: hidden; padding: 64px 0 56px; border-bottom: 1px solid var(--line); background: var(--paper); }
+    .mast::after { content: ""; position: absolute; width: 430px; height: 430px; right: -180px; top: -150px; border: 74px solid var(--red-soft); border-radius: 50%; opacity: .72; pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); gap: 56px; align-items: end; position: relative; z-index: 1; }
+    @media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr; } }
+    .issue { display: inline-flex; align-items: center; gap: 10px; color: var(--red-ink); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .issue::before { content: ""; width: 32px; height: 3px; background: var(--red); }
+    h1, h2, h3 { margin: 0; line-height: 1.12; }
+    h1 { margin-top: 18px; font-size: clamp(2.4rem, 6vw, 4.4rem); letter-spacing: -.04em; }
+    h1 .accent { color: var(--red); }
+    .tagline { margin-top: 14px; font-size: clamp(1.15rem, 2.4vw, 1.5rem); font-weight: 800; color: var(--gold-dark); }
+    .lede { max-width: 640px; margin: 16px 0 0; font-size: 1.08rem; color: var(--muted); }
+    .dl-box { padding: 26px 28px; background: var(--green-soft); border-top: 5px solid var(--green); box-shadow: var(--shadow); }
+    .dl-box strong.label { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--green); margin-bottom: 12px; }
+    .btn-download { display: block; text-align: center; background: var(--red); color: #fff; text-decoration: none; font-weight: 900; font-size: 1.1rem; padding: 16px 20px; border-radius: 999px; box-shadow: 0 10px 26px rgba(214,40,40,.3); transition: transform .12s ease; }
+    .btn-download:hover { transform: translateY(-2px); }
+    .dl-meta { margin-top: 14px; font-size: .9rem; color: var(--muted); }
+    .dl-meta li { margin-bottom: 4px; }
+
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-no { font: 500 .76rem ui-monospace,"SFMono-Regular",Consolas,monospace; color: var(--red-ink); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+    h2 { font-size: clamp(1.9rem, 4.4vw, 3rem); letter-spacing: -.035em; }
+    .section-intro { max-width: 720px; margin: 14px 0 0; color: var(--muted); font-size: 1.03rem; }
+
+    .grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 34px; }
+    @media (min-width: 640px) { .grid.cols-2 { grid-template-columns: 1fr 1fr; } .grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow); }
+    .card .emoji { font-size: 30px; margin-bottom: 8px; }
+    .card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .card p { margin: 0; font-size: .94rem; color: var(--muted); }
+
+    .steps { counter-reset: step; display: grid; gap: 14px; margin-top: 34px; }
+    .step { display: flex; gap: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 18px 22px; box-shadow: var(--shadow); }
+    .step::before { counter-increment: step; content: counter(step); flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; background: var(--green); color: #F5F0E1; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+    .step p { margin: 4px 0 0; color: var(--muted); font-size: .96rem; }
+    .step strong { font-size: 1.02rem; }
+
+    .sheet-list { margin-top: 30px; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow); }
+    .sheet-list div { display: grid; grid-template-columns: 210px 1fr; gap: 14px; padding: 14px 22px; background: var(--paper); }
+    .sheet-list div + div { border-top: 1px solid var(--line); }
+    .sheet-list div:nth-child(even) { background: #fbf6e7; }
+    .sheet-list strong { font-weight: 800; }
+    .sheet-list span { color: var(--muted); font-size: .95rem; }
+    @media (max-width: 640px) { .sheet-list div { grid-template-columns: 1fr; gap: 2px; } }
+
+    .disclaimer-box { background: var(--gold-soft); border: 1px solid var(--line); border-left: 6px solid var(--gold-dark); border-radius: var(--radius-md); padding: 24px 26px; margin-top: 30px; }
+    .disclaimer-box p { margin: 0; color: #54451a; font-size: .97rem; }
+    .disclaimer-box p + p { margin-top: 10px; }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px; font-weight: 800; font-size: 15px; text-decoration: none; }
+    .btn-dark { background: var(--green); color: #F5F0E1; }
+    .btn-outline { border: 2px solid var(--gold-dark); color: var(--gold-dark); }
+
+    footer.site-footer { margin-top: 0; border-top: 1px solid var(--line); padding: 28px 0 40px; text-align: center; background: var(--paper); }
+    footer.site-footer .disclaimer { font-size: 13px; color: var(--gold-dark); font-weight: 700; margin-bottom: 8px; }
+    footer.site-footer p { font-size: 13px; color: var(--muted); margin: 0; }
+    footer.site-footer a { color: var(--gold-dark); text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./index.html"><span class="leaf">🍁</span> Maple Money Hacks</a>
+    <nav>
+      <a href="./index.html#guides">Guides</a>
+      <a href="./index.html#calculators">Tools</a>
+      <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@Maple.money.hacks-withMk" target="_blank" rel="noopener">YouTube</a>
+    </nav>
+  </div>
+</div>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="issue">Free download · Spreadsheet tracker</span>
+        <h1>Monthly Expense <span class="accent">Tracker</span></h1>
+        <p class="tagline">Track daily. Review monthly. Decide together.</p>
+        <p class="lede">Most budgets die because nobody ever looks at the whole month. This one pairs your phone with one simple sheet: capture every expense daily in any expense-manager app, drop the monthly category totals into the sheet, then sit down with your partner for a calm 20-minute money date.</p>
+      </div>
+      <div class="dl-box">
+        <strong class="label">Get the tracker — free</strong>
+        <a class="btn-download" href="Monthly Expense Tracker - Maple Money Hacks.xlsx" download>⬇️ Download the tracker (.xlsx)</a>
+        <ul class="dl-meta">
+          <li>💸 <strong>Free</strong> — no price, no checkout, no sign-up</li>
+          <li>📊 Works in Microsoft Excel and Google Sheets</li>
+          <li>🗓️ Any year — JAN to DEC on one page</li>
+          <li>🕐 10 minutes a month, plus a 20-minute money date</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <p class="section-no">01 — What it does</p>
+      <h2>Your phone captures. The sheet explains.</h2>
+      <p class="section-intro">Daily expense apps are great at recording and terrible at perspective. This tracker is the perspective layer: one page per year, every category totalled by month, and a review sheet that tells you what to talk about.</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <div class="emoji">📱</div>
+          <h3>Daily capture stays in your app</h3>
+          <p>Keep using any expense-manager app you like for the daily 30-second logging. The sheet never asks you to type individual purchases — only each category's monthly total.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🗓️</div>
+          <h3>One page, twelve months</h3>
+          <p>Income and 11 expense groups, month by month, with a running YEAR column — so a December splurge and a January reset sit side by side and patterns jump out.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🏆</div>
+          <h3>Top 3 categories, automatically</h3>
+          <p>The Month-End Review names your three biggest expense categories every month. No digging, no guessing — the conversation starts at the biggest number.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">💬</div>
+          <h3>Built for a money date</h3>
+          <p>Each month ends with two boxes to fill in together: one thing to trim, and one win. Small, specific, and done in 20 minutes — not a line-by-line audit.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🇨🇦</div>
+          <h3>Canadian rows included</h3>
+          <p>RRSP, TFSA, FHSA, CPP, EI, income taxes and an emergency-fund row live right inside the budget, because in Canada saving is a monthly line item, not an afterthought.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">💰</div>
+          <h3>Savings count as money out</h3>
+          <p>Money moved to investments leaves your spending account, so the sheet counts it as out — then shows an "of which: savings &amp; investments" line so you can see the good outflows separately.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="section-no">02 — The ritual</p>
+      <h2>Three steps, once a month</h2>
+      <div class="steps">
+        <div class="step"><div><strong>Capture daily (30 seconds)</strong><p>Track every expense, every day, in any expense-manager app on your phone. Use the same category names as the sheet, so month-end takes minutes instead of detective work.</p></div></div>
+        <div class="step"><div><strong>Total monthly (10 minutes)</strong><p>At month-end, set the year on the Monthly Budget sheet and drop each category's monthly total into the matching yellow cell. Totals, the YEAR column and what you kept calculate themselves.</p></div></div>
+        <div class="step"><div><strong>Review together (20 minutes)</strong><p>Open Month-End Review with your partner. Ask three questions: What was our biggest category — and was it worth it? What is ONE thing we'll trim next month? What is ONE win? Write down the trim and the win, then close the sheet until next month.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="section-no">03 — What's inside</p>
+      <h2>3 sheets, one monthly habit</h2>
+      <div class="sheet-list">
+        <div><strong>Start Here</strong><span>The 3-step ritual, the money-date questions, and the licence — read this first.</span></div>
+        <div><strong>Monthly Budget</strong><span>Income plus Home, Daily Living, Transportation, Entertainment, Health, Vacations, Recreation, Dues &amp; Subscriptions, Personal, Financial Obligations and Miscellaneous — every month from JAN to DEC, with totals for money in, money out, cash left, and how much of the outflow was savings &amp; investments.</span></div>
+        <div><strong>Month-End Review</strong><span>Per month: total in, total out, saved, savings rate, and your Top 3 expense categories — plus the two money-date boxes, one trim and one win.</span></div>
+      </div>
+
+      <div class="disclaimer-box">
+        <p><strong>Please read:</strong> this tracker is an organization and education tool. It is not financial, tax or investment advice, and Maple Money Hacks is not a financial advisor.</p>
+        <p>Your numbers stay in your own file — the workbook uploads nothing and shares nothing. Rename any category label to match your household and your expense app; the totals keep working.</p>
+        <p>© Maple Money Hacks — licensed for personal household use only. Please don't resell or redistribute the file; send friends here to download their own free copy instead.</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-dark" href="Monthly Expense Tracker - Maple Money Hacks.xlsx" download>⬇️ Download free</a>
+        <a class="btn btn-outline" href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">📸 Follow @maple.money.hacks</a>
+        <a class="btn btn-outline" href="./pay-yourself-first-tracker.html">📊 Try the TFSA · FHSA · RRSP Tracker</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclaimer">Educational only, not financial advice.</p>
+    <p>&copy; 2026 Maple Money Hacks &middot; Made with &#127809; in Canada<br>
+    <a href="https://www.instagram.com/maple.money.hacks/" target="_blank" rel="noopener">@maple.money.hacks</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
